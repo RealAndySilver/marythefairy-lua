@@ -16,4 +16,14 @@ application =
             ["@300"] = 3,
         }
 	},
+	notification =
+    {
+        iphone =
+        {
+            types =
+            {
+                "badge", "sound", "alert"
+            }
+        }
+    }
 }
