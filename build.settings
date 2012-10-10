@@ -1,0 +1,41 @@
+settings = {
+	orientation =
+	{
+		default = "landscapeLeft",
+		supported = { "landscapeRight", "landscapeLeft" }
+	},
+	
+	iphone =
+	{
+		plist=
+		{
+			UIStatusBarHidden=true,
+	        CFBundleIconFile = "Icon.png",
+	        CFBundleIconFiles = {
+	           "Icon.png", 
+	           "Icon@2x.png", 
+	           "Icon-72.png", 
+	           "Icon-72@2x.png", 
+	        },
+	        UISupportedInterfaceOrientations =
+            {
+                "UIInterfaceOrientationLandscapeLeft",
+                "UIInterfaceOrientationLandscapeRight"
+            },
+            UIAppFonts =
+            {
+            	"HelveticaRdCdBd.ttf",
+            	"Curse Casual JVE.ttf",
+				"KGEmpireofDirt.ttf",
+            },
+            UIApplicationExitsOnSuspend = false,
+            CFBundleIdentifier = "com.tapmediagroup.MaryTheFairy",
+		},
+		components = {},	-- no openfeint
+		--components = { "openfeint" },	-- for openfeint & gamecenter
+		build=
+		{
+			custom="Mary the Fairy",
+		}
+	}
+}
