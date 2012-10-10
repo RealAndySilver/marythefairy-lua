@@ -105,18 +105,15 @@ local params = {}
 local date = os.date( "*t" )
 
 if launchArgs and launchArgs.notification then
-    native.showAlert( "launchArgs", json.encode( launchArgs.notification ), { "OK" } )
 end
 -- notification listener
 local function onNotification( event )
     if event.type == "remoteRegistration" then
-        --native.showAlert( "remoteRegistration", event.token, { "OK" } )
         postData = "campo="..event.token.."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
         params.body = postData
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
     print( "Notification"..event.token)
     elseif event.type == "remote" then
-        --native.showAlert( "remote", json.encode( event ), { "OK" } )
     end
 end
 postData = "campo=".."d3d859387bf90cee7e4d54129bfb845b9c375807d650b2262fb26ee078e82cb6".."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
