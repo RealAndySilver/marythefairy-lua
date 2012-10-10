@@ -13,8 +13,40 @@ local preloader = require("preloader")
 local director = require("director")
 local gameNetwork = require("gameNetwork")
 
+usingiOS = false
+if system.getInfo( "platformName" ) == "iPhone OS" then
+	usingiOS = true
+end
+
+--====================================================================--
+-- FONT CONSTANTS
+--====================================================================--
+
+mainFont1 = "KGEmpireofDirt"
+
+if usingiOS then
+	mainFont1 = "KG Empire of Dirt"
+end
+
+--====================================================================--
+-- ADS CONSTANTS
+--====================================================================--
+local appAdId = "4028cbff3a1c0028013a48734f1f0366"
+
+if usingiOS then
+	appAdId = "4028cbff3a1c0028013a483e498c035c"
+end
+
+--====================================================================--
+-- INIT ADS
+--====================================================================--
+
 ads = require "ads"
-ads.init( "inmobi", "4028cbff3a1c0028013a483e498c035c" )
+ads.init( "inmobi", appAdId )
+
+--====================================================================--
+-- CORRECTION METHODS
+--====================================================================--
 
 function correctOffset(offset)
 	--display.contentScaleX
@@ -36,13 +68,6 @@ function retinaConditional(fval, tval)
 	end
 	return fval
 end
-
---====================================================================--
--- FONT CONSTANTS
---====================================================================--
-
-mainFont1 = "KG Empire of Dirt"
-mainFont1 = "KGEmpireofDirt"
 
 --====================================================================--
 -- TEXT ANIMATION LIBRARY
@@ -739,8 +764,10 @@ end
 local onSystem = function( event )
     if event.type == "applicationStart" then
     	loggedIntoGC = false
-    	if activateGamenetwork then
-			gameNetwork.init( "gamecenter", initCallback )
+    	if usingiOS then
+    		if activateGamenetwork then
+				gameNetwork.init( "gamecenter", initCallback )
+			end
 		end
         print("start")
     elseif event.type == "applicationExit" then

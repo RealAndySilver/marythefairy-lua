@@ -2344,93 +2344,92 @@ new = function ( params )
 	-- GC buttons
 	--====================================================================--
 	
-	local initGCCallback
-	
-	local function initGCCallback (event)
-	end
-	
-	--achievements
-	local achievementsButtonAction = function ( event )
-		if event.phase == "release" then
-			if loggedIntoGC then 
-				gameNetwork.show( "achievements", { listener=requestCallback } )
-			else
-				gameNetwork.init( "gamecenter", initCallback )
-			end
-		end
-	end
-	-- UI ELEMENT
-	local achievementsButton = ui.newButton{
-					default = "assets/achievementsIcon"..suffix..".png",
-					onEvent = achievementsButtonAction,
-					id = "bt01"}
-	achievementsButton:setReferencePoint(display.CenterRightReferencePoint)
-	achievementsButton.x=display.screenOriginX+display.viewableContentWidth-25
-	achievementsButton.y=display.screenOriginY+display.viewableContentHeight-45
-	achievementsButton.xScale,achievementsButton.yScale=0.9/screenScale,0.9/screenScale
-	signGroup:insert(achievementsButton)
-	
-	--leaderboards
-	local leaderboardsButtonAction = function ( event )
-		if event.phase == "release" then
-			if loggedIntoGC then
-				gameNetwork.show( "leaderboards", { listener=requestCallback } )
-			else
-				gameNetwork.init( "gamecenter", initCallback )
-			end
-		end
-	end
-	-- UI ELEMENT
-	local leaderboardsButton = ui.newButton{
-					default = "assets/leaderboardsIcon"..suffix..".png",
-					onEvent = leaderboardsButtonAction,
-					id = "bt01"}
-	leaderboardsButton:setReferencePoint(display.CenterRightReferencePoint)
-	leaderboardsButton.x=display.screenOriginX+display.viewableContentWidth-76
-	leaderboardsButton.y=display.screenOriginY+display.viewableContentHeight-45
-	leaderboardsButton.xScale,leaderboardsButton.yScale=0.9/screenScale,0.9/screenScale
-	signGroup:insert(leaderboardsButton)
-	
-	if not loggedIntoGC then
-		achievementsButton.isVisible = false
-		leaderboardsButton.isVisible = false
+	if usingiOS then
+		local initGCCallback
 		
 		--achievements
-		local gamecenterButtonAction = function ( event )
+		local achievementsButtonAction = function ( event )
 			if event.phase == "release" then
-				transition.to(gamecenterButton, {alpha = 0})
 				if loggedIntoGC then 
-					activateGamenetwork = true
-					initGCCallback({data = true})
-				elseif not activateGamenetwork then
-					activateGamenetwork = true
-					initGameNetwork(initGCCallback)
+					gameNetwork.show( "achievements", { listener=requestCallback } )
+				else
+					gameNetwork.init( "gamecenter", initCallback )
 				end
 			end
 		end
 		-- UI ELEMENT
-		gamecenterButton = ui.newButton{
-						default = "assets/gamecenterIcon"..suffix..".png",
-						onEvent = gamecenterButtonAction,
+		local achievementsButton = ui.newButton{
+						default = "assets/achievementsIcon"..suffix..".png",
+						onEvent = achievementsButtonAction,
 						id = "bt01"}
-		gamecenterButton:setReferencePoint(display.CenterRightReferencePoint)
-		gamecenterButton.x=display.screenOriginX+display.viewableContentWidth-50
-		gamecenterButton.y=display.screenOriginY+display.viewableContentHeight-45
-		gamecenterButton.xScale,gamecenterButton.yScale=0.9/screenScale,0.9/screenScale
-		signGroup:insert(gamecenterButton)
-	end
-	
-	initGCCallback = function (event)
-		if event.data then
-			activateGamenetwork = true
-			loggedIntoGC = true
+		achievementsButton:setReferencePoint(display.CenterRightReferencePoint)
+		achievementsButton.x=display.screenOriginX+display.viewableContentWidth-25
+		achievementsButton.y=display.screenOriginY+display.viewableContentHeight-45
+		achievementsButton.xScale,achievementsButton.yScale=0.9/screenScale,0.9/screenScale
+		signGroup:insert(achievementsButton)
+		
+		--leaderboards
+		local leaderboardsButtonAction = function ( event )
+			if event.phase == "release" then
+				if loggedIntoGC then
+					gameNetwork.show( "leaderboards", { listener=requestCallback } )
+				else
+					gameNetwork.init( "gamecenter", initCallback )
+				end
+			end
+		end
+		-- UI ELEMENT
+		local leaderboardsButton = ui.newButton{
+						default = "assets/leaderboardsIcon"..suffix..".png",
+						onEvent = leaderboardsButtonAction,
+						id = "bt01"}
+		leaderboardsButton:setReferencePoint(display.CenterRightReferencePoint)
+		leaderboardsButton.x=display.screenOriginX+display.viewableContentWidth-76
+		leaderboardsButton.y=display.screenOriginY+display.viewableContentHeight-45
+		leaderboardsButton.xScale,leaderboardsButton.yScale=0.9/screenScale,0.9/screenScale
+		signGroup:insert(leaderboardsButton)
+		
+		if not loggedIntoGC then
+			achievementsButton.isVisible = false
+			leaderboardsButton.isVisible = false
 			
-			transition.from(achievementsButton, {alpha = 0})
-			transition.from(leaderboardsButton, {alpha = 0})
-			
-			achievementsButton.isVisible = true
-			leaderboardsButton.isVisible = true
-			gamecenterButton.isVisible = false
+			--achievements
+			local gamecenterButtonAction = function ( event )
+				if event.phase == "release" then
+					transition.to(gamecenterButton, {alpha = 0})
+					if loggedIntoGC then 
+						activateGamenetwork = true
+						initGCCallback({data = true})
+					elseif not activateGamenetwork then
+						activateGamenetwork = true
+						initGameNetwork(initGCCallback)
+					end
+				end
+			end
+			-- UI ELEMENT
+			gamecenterButton = ui.newButton{
+							default = "assets/gamecenterIcon"..suffix..".png",
+							onEvent = gamecenterButtonAction,
+							id = "bt01"}
+			gamecenterButton:setReferencePoint(display.CenterRightReferencePoint)
+			gamecenterButton.x=display.screenOriginX+display.viewableContentWidth-50
+			gamecenterButton.y=display.screenOriginY+display.viewableContentHeight-45
+			gamecenterButton.xScale,gamecenterButton.yScale=0.9/screenScale,0.9/screenScale
+			signGroup:insert(gamecenterButton)
+		end
+		
+		initGCCallback = function (event)
+			if event.data then
+				activateGamenetwork = true
+				loggedIntoGC = true
+				
+				transition.from(achievementsButton, {alpha = 0})
+				transition.from(leaderboardsButton, {alpha = 0})
+				
+				achievementsButton.isVisible = true
+				leaderboardsButton.isVisible = true
+				gamecenterButton.isVisible = false
+			end
 		end
 	end
 	
