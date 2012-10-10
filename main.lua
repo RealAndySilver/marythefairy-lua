@@ -42,7 +42,7 @@ end
 --====================================================================--
 
 mainFont1 = "KG Empire of Dirt"
-mainFont1 = "Curse Casual JVE"
+mainFont1 = "KGEmpireofDirt"
 
 --====================================================================--
 -- TEXT ANIMATION LIBRARY
