@@ -2,8 +2,6 @@
 -- HIDE THE STATUS BAR
 --====================================================================--
 
-
---I added a line in main, let's commit!
 display.setStatusBar(display.HiddenStatusBar)
 
 --====================================================================--
