@@ -14,7 +14,7 @@ local director = require("director")
 local gameNetwork = require("gameNetwork")
 
 ads = require "ads"
-ads.init( "inmobi", "4028cbff39009b240139474acaad05df" )
+ads.init( "inmobi", "4028cbff3a1c0028013a483e498c035c" )
 
 function correctOffset(offset)
 	--display.contentScaleX
@@ -42,6 +42,7 @@ end
 --====================================================================--
 
 mainFont1 = "KG Empire of Dirt"
+mainFont1 = "KGEmpireofDirt.ttf"
 
 --====================================================================--
 -- TEXT ANIMATION LIBRARY
