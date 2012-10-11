@@ -145,9 +145,8 @@ new = function ( params )
 		localGroup:insert(loadingBackground)
 		loadingBackground.isVisible = false
 		
-		local titleLabel = display.newText( "Dry Mary's Wings", 0, 0, mainFont1, 36 )
-		titleLabel:setTextColor(67,34,15,255)
-		titleLabel.y = 85
+		local titleLabel = util.centeredWrappedText("Adventure 2\nDry Mary's Wings", 30, 36, mainFont1, {67,34,15,255})
+		titleLabel.y = 0
 		titleLabel.x = width/2
 		localGroup:insert(titleLabel)
 		titleLabel.isVisible = false
@@ -819,7 +818,7 @@ new = function ( params )
 			end
 			if not showingWarning then
 				transition.to(warning,{alpha=0.7,xScale=1,yScale=1,time=300})
-				if math.random(2) == 1 then
+				if math.random(4) == 1 then
 					soundController.playNew{
 									path = "assets/sound/voices/SonidosNarrador/rubWings.mp3",
 									}
@@ -922,6 +921,10 @@ new = function ( params )
 				timer.cancel(loseTimer)
 				loseTimer=nil
 			end
+			if warningTimer then
+				timer.cancel(warningTimer)
+				warningTimer=nil
+			end
 			hideWarning()
 			if paused then
 				Runtime:removeEventListener( "touch", touchScreen )
@@ -995,6 +998,10 @@ new = function ( params )
 				timer.cancel(loseTimer)
 				loseTimer=nil
 			end
+			if warningTimer then
+				timer.cancel(warningTimer)
+				warningTimer=nil
+			end
 			if finished then
 				event.target:removeEventListener( "touch", touchWings )
 				return
@@ -1007,6 +1014,7 @@ new = function ( params )
 						path = "assets/sound/effects/cap2/watersound.mp3",
 						identifier = "water",
 						loops = -1,
+						staticChannel = 15,
 						actionTimes = nil,
 						action =	nil,
 						onComplete = nil
@@ -1263,6 +1271,7 @@ new = function ( params )
 			
 			saveData(2,3)
 			
+			soundController.kill("water")
 			soundController.kill("bgsound")
 			soundController.playNew{
 						path = "assets/sound/voices/cap2/int2_MThanksDry.mp3",

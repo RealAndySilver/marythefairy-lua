@@ -1,7 +1,7 @@
 module(..., package.seeall)
 
 new = function (params)
-	local thisView = {params = params, name="igMenu"}
+	local thisView = {params = params, name="PlayAgain"}
 	
 	local ui = require("ui")
 	local util = require("util")
@@ -49,7 +49,7 @@ new = function (params)
 	local congratsMSG = display.newImage( "assets/congratulationsFinalMessage.png" )
 	congratsMSG:setReferencePoint(display.TopCenterReferencePoint)
 	local cmsgScaleFactor = (windowGroup.contentWidth / realBG.contentWidth)*1.25
-	congratsMSG.xScale,congratsMSG.yScale = cmsgScaleFactor*1.1,cmsgScaleFactor*1.1
+	congratsMSG.xScale,congratsMSG.yScale = cmsgScaleFactor*1.3,cmsgScaleFactor*1.3
 	congratsMSG.x = realBG.x
 	congratsMSG.y = -(realBG.contentHeight*3/5)
 	windowGroup:insert(congratsMSG)
@@ -142,14 +142,44 @@ new = function (params)
 	end
 	localGroup:insert( windowGroup )
 	
-	soundController.playNew{
-					path = "assets/sound/voices/outro/NarratorsRealOutro.mp3",
-					actionTimes = {0},
-					action =	function()
-								end,
-					onComplete = function()
-								end
-					}
+	--promo
+	
+	local background2 = display.newRect(0,0,480,640)
+	background2:setReferencePoint(display.TopLeftReferencePoint)
+	--background.xScale,background.yScale=800/background.contentWidth,571/background.contentHeight
+	background2.isVisible=false
+	
+	local windowGroup2 = display.newGroup()
+	windowGroup2:insert(background2)
+	
+	local realBG2 = display.newImage( "assets/menu/promo.png" )
+	realBG2:setReferencePoint(display.BottomCenterReferencePoint)
+	realBG2.xScale,realBG2.yScale = rbgScaleFactor,rbgScaleFactor
+	realBG2.x = windowGroup2.contentWidth/2
+	realBG2.y = windowGroup2.contentHeight+212.5
+	windowGroup2:insert(realBG2)
+	
+	windowGroup2:setReferencePoint(display.CenterReferencePoint)
+	windowGroup2.x = (display.contentWidth - display.screenOriginX) - (realw - windowGroup.contentWidth) / 2
+	windowGroup2.y = display.contentHeight/2
+	windowGroup2.xScale = wSF * 0.8
+	windowGroup2.yScale = wSF * 0.8
+	
+	if params.animated then
+		transition.from(windowGroup2,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200})
+	end
+	localGroup:insert( windowGroup2 )
+	
+	if not params.shouldNotPlaySound then
+		soundController.playNew{
+						path = "assets/sound/voices/outro/NarratorsRealOutro.mp3",
+						actionTimes = {0},
+						action =	function()
+									end,
+						onComplete = function()
+									end
+						}
+	end
 	
 	return localGroup
 end

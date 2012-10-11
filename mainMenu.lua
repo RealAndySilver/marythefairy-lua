@@ -2448,7 +2448,7 @@ new = function ( params )
 	end
 	
 	local function goPlayAgain()
-		local paView = {params = {hideAction = hidePlayAgainMessage, repeatAction = goPlayAgain}, name="PlayAgain"}
+		local paView = {params = {hideAction = hidePlayAgainMessage, repeatAction = goPlayAgain, shouldNotPlaySound = true}, name="PlayAgain"}
 		director:openPopUp({startFromAdventure = startFromAdventure, adventureToStart = 1, caller = paView}, "selectDiff", nil )
 	end
 	

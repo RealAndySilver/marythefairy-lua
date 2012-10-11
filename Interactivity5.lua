@@ -141,9 +141,8 @@ new = function ( params )
 		localGroup:insert(loadingBackground)
 		loadingBackground.isVisible = false
 		
-		local titleLabel = display.newText( "Help mary to go to sleep", 0, 0, mainFont1, 36 )
-		titleLabel:setTextColor(67,34,15,255)
-		titleLabel.y = 85
+		local titleLabel = util.centeredWrappedText("Adventure 5\nHelp mary to go to sleep", 30, 36, mainFont1, {67,34,15,255})
+		titleLabel.y = 0
 		titleLabel.x = width/2
 		localGroup:insert(titleLabel)
 		titleLabel.isVisible = false
