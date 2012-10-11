@@ -29,6 +29,7 @@ new = function (params)
 	background.isVisible=false
 	
 	local windowGroup = display.newGroup()
+	local windowGroup2
 	windowGroup:insert(background)
 	
 	local realBG = display.newImage( "assets/menu/fondoMiniMiniMenu.png" )
@@ -63,6 +64,9 @@ new = function (params)
 				end
 			end
 			transition.to(windowGroup,{alpha=0,xScale=windowGroup.xScale*0.1,yScale=windowGroup.yScale*0.1,time=200,onComplete=action})
+			if windowGroup2 then
+				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*0.1,yScale=windowGroup.yScale*0.1,time=200,onComplete=action})
+			end
 			retryButtonAction=nil
 		end
 	end
@@ -75,6 +79,9 @@ new = function (params)
 				end
 			end
 			transition.to(windowGroup,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200,onComplete=action})
+			if windowGroup2 then
+				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200,onComplete=action})
+			end
 			resumeButtonAction=nil
 		end
 	end
@@ -149,7 +156,7 @@ new = function (params)
 	--background.xScale,background.yScale=800/background.contentWidth,571/background.contentHeight
 	background2.isVisible=false
 	
-	local windowGroup2 = display.newGroup()
+	windowGroup2 = display.newGroup()
 	windowGroup2:insert(background2)
 	
 	local realBG2 = display.newImage( "assets/menu/promo.png" )
