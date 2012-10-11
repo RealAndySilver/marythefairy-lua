@@ -14,8 +14,12 @@ local director = require("director")
 local gameNetwork = require("gameNetwork")
 
 usingiOS = false
+usingiPad = false
 if system.getInfo( "platformName" ) == "iPhone OS" then
 	usingiOS = true
+	if system.getInfo( "model" ) == "iPad" then
+		usingiPad = true
+	end
 end
 
 --====================================================================--
@@ -38,11 +42,30 @@ if usingiOS then
 end
 
 --====================================================================--
+-- ANALYTICS CONSTANTS
+--====================================================================--
+local appAnalyticsId = "QZDJG8S3FT6NH9687FVG"
+
+if usingiOS then
+	appAnalyticsId = "F3XX7TDG2ZJQ249ZG3ZM"
+end
+if usingiPad then
+	appAnalyticsId = "CDPQBDTWK69BDRCMMD4W"
+end
+
+--====================================================================--
 -- INIT ADS
 --====================================================================--
 
 ads = require "ads"
 ads.init( "inmobi", appAdId )
+
+--====================================================================--
+-- INIT ANALYTICS
+--====================================================================--
+
+require "analytics"
+analytics.init(appAnalyticsId)
 
 --====================================================================--
 -- CORRECTION METHODS
