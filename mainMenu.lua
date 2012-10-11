@@ -2056,7 +2056,7 @@ new = function ( params )
 		ag1ToLeft = nil
 		ag1ToRight = nil
 		ag2ToLeft = nil
-		ag3ToRight = nil
+		ag2ToRight = nil
 		
 		animalsGroup1 = nil
 		animalsGroup2 = nil

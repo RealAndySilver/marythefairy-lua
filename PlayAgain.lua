@@ -65,7 +65,7 @@ new = function (params)
 			end
 			transition.to(windowGroup,{alpha=0,xScale=windowGroup.xScale*0.1,yScale=windowGroup.yScale*0.1,time=200,onComplete=action})
 			if windowGroup2 then
-				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*0.1,yScale=windowGroup.yScale*0.1,time=200,onComplete=action})
+				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*0.1,yScale=windowGroup.yScale*0.1,time=200})
 			end
 			retryButtonAction=nil
 		end
@@ -80,7 +80,7 @@ new = function (params)
 			end
 			transition.to(windowGroup,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200,onComplete=action})
 			if windowGroup2 then
-				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200,onComplete=action})
+				transition.to(windowGroup2,{alpha=0,xScale=windowGroup.xScale*2,yScale=windowGroup.yScale*2,time=200})
 			end
 			resumeButtonAction=nil
 		end
