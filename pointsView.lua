@@ -222,13 +222,22 @@ new = function (params)
 		pointsText.x = -80
 		pointsText:setReferencePoint(display.CenterLeftReferencePoint)
 	end
-	timer.performWithDelay(500, function() Runtime:addEventListener("enterFrame",growPointsTextNumber) end )
 	
 	setPointsText = function()
 		Runtime:removeEventListener("enterFrame",growPointsTextNumber)
 		pointsTextNumber = points
 		pointsText.text = pointsTextNumber
+		pointsText:setReferencePoint(display.CenterLeftReferencePoint)
+		pointsText.x = -80
 	end
+	
+	timer.performWithDelay(500, function()
+			if not usingAndroid then
+				Runtime:addEventListener("enterFrame",growPointsTextNumber)
+			else
+				setPointsText(points)
+			end
+		end)
 	
 	local windowWScaleFactor = realw/windowGroup.contentWidth
 	local windowHScaleFactor = realh/windowGroup.contentHeight

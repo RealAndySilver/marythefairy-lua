@@ -702,6 +702,9 @@ new = function ( params )
 		
 		local thisSpeed = speed
 		if thisSpeed<0.1 then thisSpeed=0.1 end
+		if (thisSpeed > normalSpeed) then
+			thisSpeed = (thisSpeed - normalSpeed) ^ 0.5 + normalSpeed
+		end
 		if finishFlag then
 			finishFlag.x = finishFlag.x - thisSpeed*2 * 60/fps
 		end
@@ -761,6 +764,13 @@ new = function ( params )
 		image:setReferencePoint(display.CenterReferencePoint)
 		image.x,image.y=0,0
 		image.xScale,image.yScale = 0.45,0.45
+		
+		local box = display.newRect(0,0,80,80)
+		box:setReferencePoint(display.CenterReferencePoint)
+		box.x,box.y=0,0
+		box:setFillColor(0,0,0,1)
+		box.isVisible=true
+		
 		local circle = display.newCircle(0,0,30)
 		circle:setReferencePoint(display.CenterReferencePoint)
 		circle.x,circle.y=0,0
@@ -768,6 +778,8 @@ new = function ( params )
 		circle:setStrokeColor(colors[colorIndex][1],colors[colorIndex][2],colors[colorIndex][3],colors[colorIndex][4])
 		circle.strokeWidth = 3
 		circle.isVisible=false
+		
+		actionsList[index].displayObject:insert(box,false)
 		actionsList[index].displayObject:insert(circle,false)
 		actionsList[index].displayObject:insert(image,false)
 		math.randomseed( os.time() )
@@ -1077,6 +1089,9 @@ new = function ( params )
 			startHandAnimation()
 			
 			pauseIt=function()
+				if newSequenceTimer then
+					timer.pause(newSequenceTimer)
+				end
 				mary.Blinks.stopBlinking()
 				blackBlinks.stopBlinking()
 				blueBlinks.stopBlinking()
@@ -1087,6 +1102,9 @@ new = function ( params )
 			end
 			
 			continueIt=function()
+				if newSequenceTimer then
+					timer.resume(newSequenceTimer)
+				end
 				mary.Blinks.startBlinking()
 				blackBlinks.startBlinking()
 				blueBlinks.startBlinking()
@@ -1267,13 +1285,18 @@ new = function ( params )
 		local interactionLoop
 		
 		local lastCongrat = 0
+		print("A")
 		local function correct(actionX,actionY)
 			lastSymbolTime = system.getTimer()
 			
+			local theDiff = difficultyLevel
+			if theDiff > 3 then
+				theDiff = 3
+			end
 			if speed<normalSpeed then
-				speed = speed + boost / (2+difficultyLevel)
+				speed = speed + boost / ((1+theDiff*1)/2)
 			else
-				speed = speed * (1 + 1 / (2+difficultyLevel))
+				speed = speed * (1 + (1-(1+theDiff*1)/10)/5 )
 			end
 			
 			if speed > normalSpeed * 10 then
@@ -1290,7 +1313,7 @@ new = function ( params )
 		local function incorrect(actionX,actionY)
 			if not finished then
 				addMisses(1,actionX,actionY)
-				speed = speed / (1 + 1 / (2+difficultyLevel))
+				speed = speed / (1 + ((1+difficultyLevel*3)/10)/1.5 )
 				if speed<0.1 then
 					speed = 0.1
 				end
@@ -1300,7 +1323,7 @@ new = function ( params )
 		interactionLoop = function()
 			local curTime = system.getTimer()
 			
-			speed = (speed*799 + normalSpeed)/800
+			speed = (speed*1199 + normalSpeed)/1200
 			if speed<0.1 then
 				speed = 0.1
 			end

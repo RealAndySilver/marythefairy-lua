@@ -758,6 +758,13 @@ new = function ( params )
 		image:setReferencePoint(display.CenterReferencePoint)
 		image.x,image.y=0,0
 		image.xScale,image.yScale = 0.45,0.45
+		
+		local box = display.newRect(0,0,80,80)
+		box:setReferencePoint(display.CenterReferencePoint)
+		box.x,box.y=0,0
+		box:setFillColor(0,0,0,1)
+		box.isVisible=true
+		
 		local circle = display.newCircle(0,0,30)
 		circle:setReferencePoint(display.CenterReferencePoint)
 		circle.x,circle.y=0,0
@@ -765,6 +772,8 @@ new = function ( params )
 		circle:setStrokeColor(colors[colorIndex][1],colors[colorIndex][2],colors[colorIndex][3],colors[colorIndex][4])
 		circle.strokeWidth = 3
 		circle.isVisible=false
+		
+		actionsList[index].displayObject:insert(box,false)
 		actionsList[index].displayObject:insert(circle,false)
 		actionsList[index].displayObject:insert(image,false)
 		actionsList[index].displayObject.x = math.random(display.contentWidth-100)+display.screenOriginX+50
@@ -1673,7 +1682,10 @@ new = function ( params )
 		local wrongIconGroup = display.newGroup()
 		localGroup:insert(wrongIconGroup)
 		
-		local timeLimit = (difficultyLevel==1 and 60) or (difficultyLevel==2 and 40) or (difficultyLevel==3 and 20) or (difficultyLevel<1 and 60) or (difficultyLevel>3 and 20)
+		local pointsPerLevel = 6 + (3 * difficultyLevel)
+		local totalPoints = pointsPerLevel * 4
+		
+		local timeLimit = (difficultyLevel<=1 and 90) or (difficultyLevel==2 and 60) or (difficultyLevel>=3 and 60)
 		local timeLeft = timeLimit
 		
 		local isCongratulatingPlayer = false
@@ -1741,7 +1753,7 @@ new = function ( params )
         text1.isVisible=false
         
         showPoints = function()
-			text1.text = ""..points.."/"..12*difficultyLevel
+			text1.text = ""..points.."/"..totalPoints
 			text1.x = counterCircle.x - 10
 	        text1.y = counterCircle.y + retinaConditional(0,5)
 		end
@@ -1941,7 +1953,7 @@ new = function ( params )
 			points = points+1
 			lastSymbolTime = system.getTimer()
 			showPoints()
-			if points>=3*difficultyLevel and checkpoint == 0 and not finished then
+			if points>=pointsPerLevel*1 and checkpoint == 0 and not finished then
 				checkpoint = 1
 				transition.to(actionsGroup,{alpha=0,time=300})
 				startCheckpointAnimation()
@@ -1949,7 +1961,7 @@ new = function ( params )
 					timer.pause(countdownTimer)
 				end
 				congratulatePlayer()
-			elseif points>=6*difficultyLevel and checkpoint == 1 and not finished then
+			elseif points>=pointsPerLevel*2 and checkpoint == 1 and not finished then
 				checkpoint = 2
 				transition.to(actionsGroup,{alpha=0,time=300})
 				startCheckpointAnimation()
@@ -1957,7 +1969,7 @@ new = function ( params )
 					timer.pause(countdownTimer)
 				end
 				congratulatePlayer()
-			elseif points>=9*difficultyLevel and checkpoint == 2 and not finished then
+			elseif points>=pointsPerLevel*3 and checkpoint == 2 and not finished then
 				checkpoint = 3
 				transition.to(actionsGroup,{alpha=0,time=300})
 				startCheckpointAnimation()
@@ -1965,7 +1977,7 @@ new = function ( params )
 					timer.pause(countdownTimer)
 				end
 				congratulatePlayer()
-			elseif points>=12*difficultyLevel and checkpoint == 3 and not finished then
+			elseif points>=pointsPerLevel*4 and checkpoint == 3 and not finished then
 				checkpoint = 4
 				transition.to(actionsGroup,{alpha=0,time=300})
 				startCheckpointAnimation()

@@ -718,7 +718,7 @@ new = function ( params )
 			warning.y = height/2 + math.sin(aCounter)*30
 			if points>maxPoints then maxPoints=points end
 			local previousPoints = points
-			points = points - (difficultyLevel-1) * 0.5
+			points = points - (difficultyLevel-1) * 0.25
 			local completed = points/targetPoints
 			if completed < 0 then
 				completed = 0
@@ -942,7 +942,7 @@ new = function ( params )
 			elseif event.phase == "moved" then
 				mary.lastMovementY = (event.y - mary.lastTouchY)
 				
-				local newPoints = points + math.abs(math.abs(mary.wing1.rotation) - math.abs(mary.lastMovementY*0.001)) * 0.1
+				local newPoints = points + math.abs(math.abs(mary.wing1.rotation) - math.abs(mary.lastMovementY*0.001)) * 0.15
 				if (newPoints - points) > 3 then
 					congratulatePlayer(true)
 				elseif (newPoints - points) > 2 then

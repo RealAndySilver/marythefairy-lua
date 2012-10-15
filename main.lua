@@ -22,6 +22,16 @@ if system.getInfo( "platformName" ) == "iPhone OS" then
 	end
 end
 
+usingSimulator = false
+if system.getInfo( "environment" ) == "simulator" then
+	usingSimulator = true
+end
+
+usingAndroid = false
+if system.getInfo( "platformName" ) == "Android" then
+	usingAndroid = true
+end
+
 --====================================================================--
 -- FONT CONSTANTS
 --====================================================================--

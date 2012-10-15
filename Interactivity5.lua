@@ -629,6 +629,16 @@ new = function ( params )
 		end
 		
 		startDemoLoop = function()
+			local function killTheBug()
+				loadingBackground.alpha = 1
+				whiteSquare.alpha = 1
+				startButton.alpha = 1
+				infoDisplayObject.alpha = 1
+				whiteSquare.alpha = 1
+				killTheBug = nil
+			end
+			timer.performWithDelay(350,killTheBug)
+			
 			loadingBackground.isVisible = true
 			
 			loadingBackground.alpha = 0
@@ -708,14 +718,15 @@ new = function ( params )
 		
 		local checkOrder
 		
-		local animalLimit = (difficultyLevel==1 and 10) or (difficultyLevel==2 and 15) or (difficultyLevel==3 and 15) or (difficultyLevel<1 and 10) or (difficultyLevel>3 and 15)
-		local timeLimit = (difficultyLevel==1 and 60) or (difficultyLevel==2 and 40) or (difficultyLevel==3 and 20) or (difficultyLevel<1 and 60) or (difficultyLevel>3 and 20)
+		local animalLimit = (difficultyLevel<=1 and 20) or (difficultyLevel==2 and 30) or (difficultyLevel>=3 and 40)
+		local timeLimit = (difficultyLevel<=1 and 90) or (difficultyLevel==2 and 60) or (difficultyLevel>=3 and 60)
 		
 		local counterCircle = display.newImage("assets/contadorOvejas.png")
 		counterCircle:setReferencePoint(display.CenterReferencePoint)
 		counterCircle.x=display.screenOriginX+85
 		counterCircle.y=display.screenOriginY+22
         counterCircle.xScale,counterCircle.yScale=0.45,0.45
+		localGroup:insert(counterCircle)
 		counterCircle.isVisible = false
 		
         local text1 = display.newText("", 0, 0, mainFont1, retinaConditional(28,36))
@@ -1388,6 +1399,9 @@ new = function ( params )
 		
 		localGroup:insert(counterCircle)
 		localGroup:insert(text1)
+		
+		localGroup:insert(timerCircle)
+		localGroup:insert(text2)
 		
 		checkOrder = function()
 			if finished then return end
