@@ -2038,6 +2038,7 @@ new = function ( params )
 		local fireTimer = nil
 		local function vanish()
 			timer.performWithDelay(300, continue)
+			--continue()
 		end
 		
 		startTheParty = function()
@@ -2183,8 +2184,10 @@ new = function ( params )
 			
 			if repeatInteraction then
 				timer.performWithDelay(500, repeatScene)
+				--repeatScene()
 			else
 				timer.performWithDelay(500, changeScene)
+				--changeScene()
 			end
 			
 			loadInteraction=nil

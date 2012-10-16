@@ -1715,6 +1715,7 @@ new = function ( params )
 		local fireTimer = nil
 		local function vanish()
 			timer.performWithDelay(300, continue)
+			--continue()
 		end
 		
 		startTheParty = function()
@@ -1869,16 +1870,28 @@ new = function ( params )
 			
 			if repeatInteraction then
 				timer.performWithDelay(500, repeatScene)
+				--repeatScene()
 			else
 				timer.performWithDelay(500, changeScene)
+				--changeScene()
 			end
 			
 			loadInteraction=nil
 		end
 		
 		local function continue()
-			local whiteBackground = display.newRect(0,0,width,height)
-			whiteBackground:setFillColor(255,255,255)
+			--local whiteBackground = display.newRect(0,0,width,height)
+			--whiteBackground:setFillColor(255,255,255)
+			local whiteBackground
+			if repeatInteraction then
+				whiteBackground = display.newRect(0,0,width,height)
+				whiteBackground:setFillColor(255,255,255)
+			else
+				whiteBackground = display.newImageRect("assets/world/fairiesTownBlurred.jpg",width,height)
+			end
+			whiteBackground:setReferencePoint(display.TopLeftReferencePoint)
+			whiteBackground.x = 0
+			whiteBackground.y = 0
 			whiteBackground.alpha=0
 			localGroup:insert(whiteBackground)
 			transition.to(whiteBackground,{alpha=1,time=1000,onComplete=loadInteraction})
