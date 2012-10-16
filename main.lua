@@ -685,7 +685,7 @@ local function newSoundController()
 	
 	thisSC.kill = function(identifier)
 		for i = 1, #playList do
-			print(i)
+			--print(i)
 			if playList[i] then
 				if playList[i].identifier == identifier then
 					playList[i].kill()
