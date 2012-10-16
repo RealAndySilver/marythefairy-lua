@@ -188,6 +188,9 @@ new = function (params)
 	end
 	
 	pointsTextNumber = 0
+	if usingAndroid then
+		pointsTextNumber = points
+	end
 	local pointsText = display.newText(pointsTextNumber, 0, 0, mainFont1, 150)
 	pointsText:setReferencePoint(display.CenterLeftReferencePoint)
 	pointsText:setTextColor(193,39,45,255)

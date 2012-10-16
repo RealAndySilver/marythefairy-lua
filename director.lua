@@ -173,7 +173,9 @@ local showError = function ( errorMessage )
 		print ( "-----------------------" )
 		error ()
 	end
-	local alert = native.showAlert( "Director Class - ERROR", str, { "OK" }, onComplete )
+	if not skipDirectorErrorAlerts then
+		local alert = native.showAlert( "Director Class - ERROR", str, { "OK" }, onComplete )
+	end
 end
 
 --====================================================================--

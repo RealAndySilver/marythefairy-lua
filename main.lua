@@ -12,6 +12,7 @@ local adPreloader = require("adPreloader")
 local preloader = require("preloader")
 local director = require("director")
 local gameNetwork = require("gameNetwork")
+skipDirectorErrorAlerts = true
 
 usingiOS = false
 usingiPad = false

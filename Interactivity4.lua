@@ -785,11 +785,14 @@ new = function ( params )
 		math.randomseed( os.time() )
 		--math.randomseed( system.getTimer() )
 		actionsList[index].displayObject.x = (display.viewableContentWidth)+display.screenOriginX
-		actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-50 - math.random()*30 - math.sin(math.random()*3.14159265*2) * 30
-		--actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-30 - math.random()*80
 		if isDemo then
+			actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-50 - math.random()*30 - math.sin(math.random()*3.14159265*2) * 30
 			actionsList[index].displayObject.y = actionsList[index].displayObject.y - 95
+		else
+			actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-50 - (display.contentHeight-120)/2 + math.sin(math.random()*3.14159265*2) * math.random((display.contentHeight-120)/2)
+			--actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-50 - math.random()*60 - math.sin(math.random()*3.14159265*2) * 60
 		end
+		--actionsList[index].displayObject.y = display.screenOriginY+display.viewableContentHeight-30 - math.random()*80
 		actionsList[index].displayObject.index = colorIndex
 		actionsList[index].displayObject.alpha = 0
 		actionsList[index].displayObject.touched = false
@@ -1140,7 +1143,7 @@ new = function ( params )
 		local wrongIconGroup = display.newGroup()
 		localGroup:insert(wrongIconGroup)
 		
-		local timeLimit = (difficultyLevel==1 and 60) or (difficultyLevel==2 and 40) or (difficultyLevel==3 and 20) or (difficultyLevel<1 and 60) or (difficultyLevel>3 and 20)
+		local timeLimit = (difficultyLevel<=1 and 90) or (difficultyLevel==2 and 60) or (difficultyLevel>=3 and 60)
 		local timeLeft = timeLimit
 		
 		local isCongratulatingPlayer = false
@@ -1285,7 +1288,6 @@ new = function ( params )
 		local interactionLoop
 		
 		local lastCongrat = 0
-		print("A")
 		local function correct(actionX,actionY)
 			lastSymbolTime = system.getTimer()
 			
@@ -1294,9 +1296,9 @@ new = function ( params )
 				theDiff = 3
 			end
 			if speed<normalSpeed then
-				speed = speed + boost / ((1+theDiff*1)/2)
+				speed = speed + boost / ((1+theDiff*1)/3)
 			else
-				speed = speed * (1 + (1-(1+theDiff*1)/10)/5 )
+				speed = speed * (1 + (1-(1+theDiff*1)/10)/6 )
 			end
 			
 			if speed > normalSpeed * 10 then
@@ -1313,7 +1315,7 @@ new = function ( params )
 		local function incorrect(actionX,actionY)
 			if not finished then
 				addMisses(1,actionX,actionY)
-				speed = speed / (1 + ((1+difficultyLevel*3)/10)/1.5 )
+				speed = speed / (1 + ((1+difficultyLevel*3)/10)/2.5 )
 				if speed<0.1 then
 					speed = 0.1
 				end

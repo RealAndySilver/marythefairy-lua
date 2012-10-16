@@ -733,7 +733,6 @@ new = function ( params )
 					loseTimer=nil
 				end
 				loseTimer = timer.performWithDelay(5000,gameOver)
-				print("miss")
 				addMisses(1, waterContainer.x + 45, height/2)
 			end
 			waterRect.yScale = 1-completed+0.05
@@ -1059,7 +1058,9 @@ new = function ( params )
 				end
 				mary.laughingAnimation.stop()
 				waterWavesInstance:pause()
-				timer.pause(warningTimer)
+				if warningTimer then
+					timer.pause(warningTimer)
+				end
 			end
 			
 			continueIt=function()
@@ -1072,7 +1073,9 @@ new = function ( params )
 				end
 				mary.laughingAnimation.start()
 				waterWavesInstance:play()
-				timer.resume(warningTimer)
+				if warningTimer then
+					timer.resume(warningTimer)
+				end
 			end
 			
 			pauseIt()

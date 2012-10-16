@@ -635,6 +635,7 @@ new = function ( params )
 				startButton.alpha = 1
 				infoDisplayObject.alpha = 1
 				whiteSquare.alpha = 1
+				handComponent.displayObject.alpha = 1
 				killTheBug = nil
 			end
 			timer.performWithDelay(350,killTheBug)

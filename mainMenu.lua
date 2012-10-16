@@ -869,7 +869,9 @@ new = function ( params )
 		if animalsGroup2 then
 			animalsGroup2.xScale = -0.1
 			animalsGroup2.x = width + 100
-			transition.to(animalsGroup2,{time = 6000, x = 300,onComplete = ag2ToRight})
+			if ag2ToRight then
+				transition.to(animalsGroup2,{time = 6000, x = 300,onComplete = ag2ToRight})
+			end
 		end
 	end
 	
@@ -877,7 +879,9 @@ new = function ( params )
 		if animalsGroup2 then
 			animalsGroup2.xScale = 0.1
 			animalsGroup2.x = 200
-			transition.to(animalsGroup2,{time = 6000, x = width,onComplete = ag2ToLeft})
+			if ag2ToLeft then
+				transition.to(animalsGroup2,{time = 6000, x = width,onComplete = ag2ToLeft})
+			end
 		end
 	end
 	
@@ -2007,7 +2011,9 @@ new = function ( params )
 		if animalsGroup1 then
 			animalsGroup1.xScale = -0.3
 			animalsGroup1.x = width + 200
-			transition.to(animalsGroup1,{time = 4000, x = -150,onComplete = ag1ToRight})
+			if ag1ToRight then
+				transition.to(animalsGroup1,{time = 4000, x = -150,onComplete = ag1ToRight})
+			end
 		end
 	end
 	
@@ -2015,7 +2021,9 @@ new = function ( params )
 		if animalsGroup1 then
 			animalsGroup1.xScale = 0.3
 			animalsGroup1.x = -200
-			transition.to(animalsGroup1,{time = 4000, x = width + 150,onComplete = ag1ToLeft})
+			if ag1ToLeft then
+				transition.to(animalsGroup1,{time = 4000, x = width + 150,onComplete = ag1ToLeft})
+			end
 		end
 	end
 	

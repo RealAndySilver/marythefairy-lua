@@ -659,6 +659,7 @@ new = function ( params )
 	local letActionPass
 	
 	local lastChances = 0
+	local theDiffLevel = (difficultyLevel <= 1 and 0) or 1
 	
 	local function killPassedActions()
 		for i=1,#actionsList do
@@ -722,7 +723,7 @@ new = function ( params )
 				if isDemo then
 					actionsGroup[i].y = actionsGroup[i].y + 0.12*dt
 				else
-					actionsGroup[i].y = actionsGroup[i].y + 0.2*dt*(1+(0.2*(difficultyLevel-1)))
+					actionsGroup[i].y = actionsGroup[i].y + 0.2*dt*(1+(0.2*(theDiffLevel)))
 				end
 				local newAlpha = (math.abs(actionsGroup[i].y-display.screenOriginY)/display.contentHeight)*5
 				if newAlpha<0 then newAlpha=0 end
@@ -1685,7 +1686,7 @@ new = function ( params )
 		local pointsPerLevel = 6 + (3 * difficultyLevel)
 		local totalPoints = pointsPerLevel * 4
 		
-		local timeLimit = (difficultyLevel<=1 and 90) or (difficultyLevel==2 and 60) or (difficultyLevel>=3 and 60)
+		local timeLimit = (difficultyLevel<=1 and 90) or (difficultyLevel==2 and 90) or (difficultyLevel>=3 and 90)
 		local timeLeft = timeLimit
 		
 		local isCongratulatingPlayer = false
@@ -1789,8 +1790,7 @@ new = function ( params )
 			text2.text = ""..timeLeft
 			checkPlayerActivity()
 			if timeLeft<=0 then
-				
-				if gameOver then gameOver() end
+				if gameOver then gameOver(); gameOver = nil; end
 			else
 				if timeLeft==5 or timeLeft==13 then
 					soundController.playNew{
@@ -1821,7 +1821,7 @@ new = function ( params )
 		local function callNewSequence()
 			if not finished and not playingCheckpoint then
 				newAction()
-				newSequenceTimer = timer.performWithDelay(1200*(1-0.4*(difficultyLevel-1)),callNewSequence)
+				newSequenceTimer = timer.performWithDelay(1200*(1-0.4*(theDiffLevel)),callNewSequence)
 			end
 		end
 		
@@ -2076,6 +2076,7 @@ new = function ( params )
 			timer.performWithDelay(1000, continue)
 			phaseTwoFinished = nil
 			
+			phaseTwoFinished = nil
 			vanish = nil
 		end
 		phaseTwoFinished = vanish
@@ -2613,6 +2614,7 @@ new = function ( params )
 							killCaller = killAll,
 							},
 							"goMenu")
+		gameOver = nil
 	end
 	
 	--======================================

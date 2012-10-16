@@ -588,6 +588,7 @@ new = function ( params )
 											nextSubtitle()
 										end,
 							onComplete = function()
+											forceFinish = true
 										end
 							}
 				marySound = nil
