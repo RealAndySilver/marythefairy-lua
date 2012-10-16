@@ -2620,8 +2620,16 @@ new = function ( params )
 		end
 		
 		local function continue()
-			local whiteBackground = display.newRect(0,0,width,height)
-			whiteBackground:setFillColor(255,255,255)
+			local whiteBackground
+			if repeatInteraction then
+				whiteBackground = display.newRect(0,0,width,height)
+				whiteBackground:setFillColor(255,255,255)
+			else
+				whiteBackground = display.newImageRect("assets/world/fairiesTownBlurred.jpg",width,height)
+				whiteBackground:setReferencePoint(display.TopLeftReferencePoint)
+				whiteBackground.x = 0
+				whiteBackground.y = 0
+			end
 			whiteBackground.alpha=0
 			localGroup:insert(whiteBackground)
 			transition.to(whiteBackground,{alpha=1,time=1000,onComplete=loadInteraction})
@@ -2648,15 +2656,18 @@ new = function ( params )
 			star3.alpha = 0
 			star4.alpha = 0
 			
-			transition.to(star1,{alpha=1,time=700})
-			transition.to(star2,{alpha=1,time=700})
-			transition.to(star3,{alpha=1,time=700})
-			transition.to(star4,{alpha=1,time=700})
-			
-			transition.to(star1,{xScale=3,yScale=3,		time=1500,transition=easing.inExpo})
-			transition.to(star2,{xScale=2.5,yScale=2.5,	time=1500,transition=easing.inExpo})
-			transition.to(star3,{xScale=2,yScale=2,		time=1500,transition=easing.inExpo})
-			transition.to(star4,{xScale=3.5,yScale=3.5,	time=1500,transition=easing.inExpo})
+			local function animateStars()
+				transition.to(star1,{alpha=1,time=700})
+				transition.to(star2,{alpha=1,time=700})
+				transition.to(star3,{alpha=1,time=700})
+				transition.to(star4,{alpha=1,time=700})
+				
+				transition.to(star1,{xScale=3,yScale=3,		time=1500,transition=easing.inExpo})
+				transition.to(star2,{xScale=2.5,yScale=2.5,	time=1500,transition=easing.inExpo})
+				transition.to(star3,{xScale=2,yScale=2,		time=1500,transition=easing.inExpo})
+				transition.to(star4,{xScale=3.5,yScale=3.5,	time=1500,transition=easing.inExpo})
+			end
+			timer.performWithDelay(200, animateStars)
 			
 			timer.performWithDelay(500, vanish)
 			startTransition=nil

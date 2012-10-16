@@ -83,6 +83,7 @@ function new()
 				loadingText = originalLoadingText
 			end
 			titleLabel.text = loadingText
+			titleLabel.alpha = 1
 			
 			local dotCount = 0
 			for dot in string.gmatch(loadingText, "%.") do
