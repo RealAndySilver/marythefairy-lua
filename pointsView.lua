@@ -14,8 +14,6 @@ new = function (params)
 		end
 	end
 	
-	local buttonsReleased = false
-	
 	local setPointsText
 	
 	local starValue = 15000
@@ -57,7 +55,7 @@ new = function (params)
 	windowGroup:insert(congratsMSG)
 	
 	local retryButtonAction = function ( event )
-		if event.phase == "release" and buttonsReleased then
+		if event.phase == "release" then
 			setPointsText(points)
 			local function action()
 				director:closePopUp()
@@ -70,7 +68,7 @@ new = function (params)
 		end
 	end
 	local resumeButtonAction = function ( event )
-		if event.phase == "release" and buttonsReleased then
+		if event.phase == "release" then
 			setPointsText(points)
 			local function action()
 				director:closePopUp()
@@ -83,7 +81,7 @@ new = function (params)
 		end
 	end
 	local mainMenuButtonAction = function ( event )
-		if event.phase == "release" and buttonsReleased then
+		if event.phase == "release" then
 			setPointsText(points)
 			local function action()
 				director:closePopUp()
@@ -242,7 +240,6 @@ new = function (params)
 			else
 				setPointsText(points)
 			end
-			buttonsReleased = true
 		end)
 	
 	local windowWScaleFactor = realw/windowGroup.contentWidth
