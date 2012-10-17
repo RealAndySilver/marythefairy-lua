@@ -3107,8 +3107,11 @@ new = function ( params )
 		end
 		
 		local function continue()
-			local whiteBackground = display.newRect(0,0,width,height)
-			whiteBackground:setFillColor(255,255,255)
+			local whiteBackground = display.newImageRect("assets/world/silverGardenSky.jpg",width,height)
+			whiteBackground:setReferencePoint(display.TopLeftReferencePoint)
+			whiteBackground.x = 0
+			whiteBackground.y = 0
+			--whiteBackground:setFillColor(255,255,255)
 			whiteBackground.alpha=0
 			localGroup:insert(whiteBackground)
 			transition.to(whiteBackground,{alpha=1,time=300,onComplete=loadInteraction})
@@ -3117,7 +3120,8 @@ new = function ( params )
 		local growStars
 		
 		local function vanish()
-			timer.performWithDelay(300, continue)
+			--timer.performWithDelay(300, continue)
+			continue()
 		end
 		
 		startTransition = function()
@@ -3166,7 +3170,7 @@ new = function ( params )
 			transition.to(star7,{yScale=3.5,time=1500,transition=easing.outExpo})
 			transition.to(star8,{yScale=3,time=1500,transition=easing.outExpo})
 			
-			timer.performWithDelay(1500, vanish)
+			timer.performWithDelay(750, vanish)
 		end
 	end
 	prepareTransition()

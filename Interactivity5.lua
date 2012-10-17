@@ -2192,15 +2192,8 @@ new = function ( params )
 		
 		local function continue()
 			local whiteBackground
-			if repeatInteraction then
-				whiteBackground = display.newRect(0,0,width,height)
-				whiteBackground:setFillColor(255,255,255)
-			else
-				whiteBackground = display.newImageRect("assets/world/fairiesTownBlurred.jpg",width,height)
-				whiteBackground:setReferencePoint(display.TopLeftReferencePoint)
-				whiteBackground.x = 0
-				whiteBackground.y = 0
-			end
+			whiteBackground = display.newRect(0,0,width,height)
+			whiteBackground:setFillColor(255,255,255)
 			whiteBackground:setFillColor(255,255,255)
 			whiteBackground.alpha=0
 			localGroup:insert(whiteBackground)

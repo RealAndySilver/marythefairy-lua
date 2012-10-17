@@ -1325,6 +1325,16 @@ new = function ( params )
 		interactionLoop = function()
 			local curTime = system.getTimer()
 			
+			if paused then
+				local dt = curTime - prTime
+				if dt > 66 then
+					dt = 1
+				end
+				dt = dt*0.1
+				prTime = curTime;
+				return;
+			end
+			
 			speed = (speed*1199 + normalSpeed)/1200
 			if speed<0.1 then
 				speed = 0.1
@@ -1442,7 +1452,7 @@ new = function ( params )
 			
 			prTime = system.getTimer()
 			
-			timer.performWithDelay(1000,callNewSequence)
+			newSequenceTimer = timer.performWithDelay(1000,callNewSequence)
 			
 			actionFunction = function(action)
 				soundController.playNew{
