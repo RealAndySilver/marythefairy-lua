@@ -833,7 +833,11 @@ function newAnimation( params )
 				if thisAnimation.displayObject.parent then
 					thisAnimation.displayObject.parent:remove(thisAnimation.displayObject)
 				else
-					thisAnimation.displayObject:removeSelf()
+					--if thisAnimation.displayObject:removeSelf then
+					--	thisAnimation.displayObject:removeSelf()
+					--else
+						thisAnimation.displayObject = nil
+					--end
 				end
 			end
 			thisAnimation = nil
@@ -1079,7 +1083,7 @@ function newScreenMessages()
 		thisSMController.stop = nil
 		thisSMController.removeAllMessages = nil
 		thisSMController.kill = nil
-		print("killed messages")
+		--print("killed messages")
 	end
 	
 	return thisSMController

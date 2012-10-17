@@ -854,6 +854,24 @@ new = function ( params )
 		end
 		
 		local function impulseWings ()
+			if not mary then
+				Runtime:removeEventListener("enterFrame",impulseWings)
+				soundController.kill("water")
+				impulseWings = nil
+				if finished then
+					vanish()
+				end
+				return
+			end
+			if (not mary.wing1) or (not mary.wing2) or (not mary.wing1.rotation) or (not mary.wing2.rotation) then
+				Runtime:removeEventListener("enterFrame",impulseWings)
+				soundController.kill("water")
+				impulseWings = nil
+				if finished then
+					vanish()
+				end
+				return
+			end
 			if loseTimer then
 				timer.cancel(loseTimer)
 				loseTimer=nil
@@ -862,7 +880,9 @@ new = function ( params )
 			if mary.lastMovementY then
 				mary.lastMovementY = mary.lastMovementY * 0.95
 				
-				local newPoints = points + 0.1 * math.abs(math.abs(mary.wing1.rotation) - math.abs(mary.lastMovementY*0.001)) * 0.1
+				local w1rA = math.abs(mary.wing1.rotation)
+				local lmyA = math.abs(mary.lastMovementY*0.001)
+				local newPoints = points + 0.1 * math.abs(w1rA - lmyA) * 0.1
 				if (newPoints - points) > 0.3 then
 					local times = math.floor((newPoints-points)/0.3)
 					for i = 1,times do
@@ -927,13 +947,21 @@ new = function ( params )
 			hideWarning()
 			if paused then
 				Runtime:removeEventListener( "touch", touchScreen )
-				Runtime:addEventListener("enterFrame",impulseWings)
+				if impulseWings then
+					Runtime:addEventListener("enterFrame",impulseWings)
+				else
+					vanish()
+				end
 				return
 			end
 			isShakingWings = true
 			if finished then
 				Runtime:removeEventListener( "touch", touchScreen )
-				Runtime:addEventListener("enterFrame",impulseWings)
+				if impulseWings then
+					Runtime:addEventListener("enterFrame",impulseWings)
+				else
+					vanish()
+				end
 				return
 			end
 			if event.phase == "began" then
@@ -988,7 +1016,9 @@ new = function ( params )
 				mary.lastTouchY = nil
 				
 				Runtime:removeEventListener( "touch", touchScreen )
-				Runtime:addEventListener("enterFrame",impulseWings)
+				if impulseWings then
+					Runtime:addEventListener("enterFrame",impulseWings)
+				end
 			end
 		end
 		
