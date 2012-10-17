@@ -881,7 +881,7 @@ new = function ( params )
 			animalsGroup2.xScale = 0.1
 			animalsGroup2.x = 200
 			if ag2ToLeft then
-				timer.performWithDelay(4000, ag2ToLeft)
+				timer.performWithDelay(6000, ag2ToLeft)
 				transition.to(animalsGroup2,{time = 6000, x = width})
 			end
 		end
