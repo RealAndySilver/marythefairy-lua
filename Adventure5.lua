@@ -1097,7 +1097,7 @@ new = function ( params )
 			transition.to(star7,{yScale=3.5,time=1500,transition=easing.outExpo})
 			transition.to(star8,{yScale=3,time=1500,transition=easing.outExpo})
 			
-			timer.performWithDelay(750, vanish)
+			timer.performWithDelay(1000, vanish)
 		end
 	end
 	

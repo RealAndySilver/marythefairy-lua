@@ -2577,8 +2577,14 @@ new = function ( params )
 	sheep1.startRunning()
 	sheep2.startRunning()
 	
-	ag1ToRight()
-	ag2ToRight()
+	animalsGroup1.x = width + 150
+	animalsGroup2.x = width + 150
+	
+	timer.performWithDelay(1000, 	function()
+										if ag1ToRight then ag1ToRight() end
+										if ag2ToRight then ag2ToRight() end
+									end
+									)
 	
 	return localGroup
 end

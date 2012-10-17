@@ -1555,7 +1555,7 @@ new = function ( params )
 			pauseIt = nil
 			continueIt = nil
 			timer.performWithDelay(500,continue)
-			timer.performWithDelay(1500,kill)
+			timer.performWithDelay(1000,kill)
 		end
 		
 		marySproutingWingsAnimation.start = function ()
@@ -1698,8 +1698,8 @@ new = function ( params )
 		local growStars
 		
 		local function vanish()
-			--timer.performWithDelay(300, continue)
-			continue()
+			timer.performWithDelay(300, continue)
+			--continue()
 		end
 		
 		sceneTransition.start = function()
@@ -1748,7 +1748,7 @@ new = function ( params )
 			transition.to(star7,{yScale=3.5,time=1500,transition=easing.outExpo})
 			transition.to(star8,{yScale=3,time=1500,transition=easing.outExpo})
 			
-			timer.performWithDelay(750, vanish)
+			timer.performWithDelay(1000, vanish)
 		end
 	end
 	
