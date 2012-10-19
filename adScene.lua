@@ -11,6 +11,18 @@ local ui = require("ui")
 
 -- Main function - MUST return a display.newGroup()
 function new()
+		
+		local width = display.contentWidth
+		local height = display.contentHeight
+		
+		local viewableContentWidth = display.viewableContentWidth
+		local viewableContentHeight = display.viewableContentHeight
+		
+		local screenOriginX = display.screenOriginX
+		local screenOriginY = display.screenOriginY
+		
+		local screenRemainingSpace = viewableContentHeight - 250
+		
         local localGroup = display.newGroup()
         
         -- Code Start --
@@ -21,9 +33,11 @@ function new()
 		loadingBackground.y = 0
 		localGroup:insert(loadingBackground)
 		
-		ads.show( "banner320x48", { x=80, y=60, interval=5, testMode=true } )
+		--ads.show( "banner320x48", { x=80, y=60, interval=5, testMode=true } )
 		
 		--ads.show( "banner320x48", { x=80, y=212, interval=5, testMode=true } )
+		
+		ads.show( "banner300x250", { x=90, y=screenOriginY, interval=5, testMode=true } )
 		
         local clickable = false
 		local resumeButton
@@ -52,12 +66,16 @@ function new()
 						emboss = true,
 						textColor={66,33,11,255},
 						id = "bt01"}
-		resumeButton:setReferencePoint(display.CenterReferencePoint)
-		resumeButton.x=display.contentWidth/2
-		resumeButton.y=display.contentHeight*3/4
 		resumeButton:setFillColor( 202, 202, 202 )
 		resumeButton:setTextColor( 63, 63, 63, 255 )
-		resumeButton.xScale,resumeButton.yScale = 0.75,0.75
+		rbSF = screenRemainingSpace / resumeButton.contentHeight
+		if rbSF < 0.75 then
+			rbSF = 0.75
+		end
+		resumeButton.xScale,resumeButton.yScale = rbSF, rbSF
+		resumeButton:setReferencePoint(display.CenterReferencePoint)
+		resumeButton.x=display.contentWidth/2
+		resumeButton.y=screenOriginY + viewableContentHeight - screenRemainingSpace / 2
 		resumeButton.isVisible=false
 		localGroup:insert(resumeButton)
 		
@@ -68,6 +86,7 @@ function new()
 		titleLabel:setTextColor(67,34,15,255)
 		titleLabel.y = resumeButton.y
 		titleLabel.x = resumeButton.x
+		titleLabel.xScale,titleLabel.yScale = rbSF/0.75, rbSF/0.75
 		localGroup:insert(titleLabel)
 		
 		titleLabel.alpha=0

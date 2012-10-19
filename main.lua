@@ -797,6 +797,7 @@ end
 -- create a function to handle all of the system events
 local onSystem = function( event )
     if event.type == "applicationStart" then
+    	display.setStatusBar(display.HiddenStatusBar)
     	loggedIntoGC = false
     	if usingiOS then
     		if activateGamenetwork then
@@ -809,6 +810,7 @@ local onSystem = function( event )
     elseif event.type == "applicationSuspend" then
         print("suspend")
     elseif event.type == "applicationResume" then
+        display.setStatusBar(display.HiddenStatusBar)
         print("resume")
     end
 end
