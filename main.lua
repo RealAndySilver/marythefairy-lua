@@ -33,6 +33,16 @@ if system.getInfo( "platformName" ) == "Android" then
 	usingAndroid = true
 end
 
+local width = display.contentWidth
+local height = display.contentHeight
+local sscalex = display.contentScaleX
+local sscaley = display.contentScaleY
+
+print("w: "..width)
+print("h: "..height)
+print("sx: "..sscalex)
+print("sy: "..sscaley)
+
 --====================================================================--
 -- FONT CONSTANTS
 --====================================================================--

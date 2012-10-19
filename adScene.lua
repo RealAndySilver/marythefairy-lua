@@ -21,6 +21,9 @@ function new()
 		local screenOriginX = display.screenOriginX
 		local screenOriginY = display.screenOriginY
 		
+		local sscalex = display.contentScaleX
+		local sscaley = display.contentScaleY
+		
 		local screenRemainingSpace = viewableContentHeight - 250
 		
         local localGroup = display.newGroup()
@@ -37,7 +40,24 @@ function new()
 		
 		--ads.show( "banner320x48", { x=80, y=212, interval=5, testMode=true } )
 		
-		ads.show( "banner300x250", { x=90, y=screenOriginY, interval=5, testMode=true } )
+		--ads.show( "banner300x250", { x=90, y=screenOriginY, interval=5, testMode=true } )
+		
+		local ssscale = sscalex
+		if usingiOS and (not usingiPad) and (sscalex == 1 or sscalex == 0.5) then --iphone normal y retina
+			ssscale = 1
+		elseif usingiOS and (not usingiPad) then --iphone 5
+			ssscale = sscalex*2
+		elseif usingiPad then --ipad
+			ssscale = 0.41666665673256
+		else --resto
+		end
+		ads.show( "banner300x250", { x=90+(((300/ssscale)-300)/2)*ssscale, y=screenOriginY+((250/ssscale-250)/2)*ssscale, interval=5, testMode=true } )
+		
+		--if usingiPad then
+			--ads.show( "banner300x250", { x=260, y=screenOriginY+141, interval=5, testMode=true } )
+		--else
+			--ads.show( "banner300x250", { x=90, y=screenOriginY, interval=5, testMode=true } )
+		--end
 		
         local clickable = false
 		local resumeButton
@@ -76,6 +96,15 @@ function new()
 		resumeButton:setReferencePoint(display.CenterReferencePoint)
 		resumeButton.x=display.contentWidth/2
 		resumeButton.y=screenOriginY + viewableContentHeight - screenRemainingSpace / 2
+		if not usingiOS then
+			if sscaley <= 0.75 then
+				resumeButton.y = resumeButton.y - 25
+			else
+				resumeButton:setReferencePoint(display.TopCenterReferencePoint)
+				resumeButton.xScale,resumeButton.yScale = rbSF*0.75, rbSF*0.75
+				resumeButton:setReferencePoint(display.CenterReferencePoint)
+			end
+		end
 		resumeButton.isVisible=false
 		localGroup:insert(resumeButton)
 		
