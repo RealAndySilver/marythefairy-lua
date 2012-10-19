@@ -158,6 +158,19 @@ local mainGroup = display.newGroup()
 --====================================================================--
 -- Notifications
 --====================================================================--
+local algo=0;
+local function goToURL( event )
+        if "clicked" == event.action then
+                local i = event.index
+                if 1 == i then
+                        -- Do nothing; dialog will simply dismiss
+                elseif 2 == i then
+                        -- Open URL if "Learn More" (the 2nd button) was clicked
+                        system.openURL( algo )
+                end
+        end
+end
+
 local launchArgs = ...
 
 local json = require "json"
@@ -167,6 +180,9 @@ local function networkListener( event )
                 print( "Network error!")
         else
                 print ( "RESPONSE: " .. event.response )
+                eldecode=json.decode(event.response)
+                algo=eldecode.url
+                --native.showAlert( "Notification 5", algo, { "Cancel","OK" },goToURL )
         end
 end
  
@@ -184,11 +200,21 @@ local function onNotification( event )
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
     print( "Notification"..event.token)
     elseif event.type == "remote" then
+    jsonVar=json.encode(event)
+    jsonDecodedMessage=json.decode(jsonVar)
+    jsonAlert=jsonDecodedMessage.alert
+    if	string.find(jsonAlert,"Fairy 2")then
+            native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
+    else then
+                --native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
+    end
     end
 end
+
 postData = "campo=".."d3d859387bf90cee7e4d54129bfb845b9c375807d650b2262fb26ee078e82cb6".."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
         params.body = postData
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
+        network.request( "http://whackimole.com/PushScript/getUrlForUpdate.php", "POST", networkListener, params)
 
 print("año "..date.year,"mes "..date.month,"Día "..date.day,"hora "..date.hour, "minutos "..date.min)
 Runtime:addEventListener( "notification", onNotification )
