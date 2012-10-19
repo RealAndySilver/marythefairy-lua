@@ -205,8 +205,8 @@ local function onNotification( event )
     jsonAlert=jsonDecodedMessage.alert
     if	string.find(jsonAlert,"Fairy 2")then
             native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
-    else then
-                --native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
+    elseif string.find(jsonAlert,"chao")then
+                --native.showAlert( "Notification 2", jsonAlert, { "Cancel","OK" },goToURL )
     end
     end
 end
