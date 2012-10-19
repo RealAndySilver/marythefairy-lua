@@ -2365,7 +2365,7 @@ new = function ( params )
 				if loggedIntoGC then 
 					gameNetwork.show( "achievements", { listener=requestCallback } )
 				else
-					gameNetwork.init( "gamecenter", initCallback )
+					initGameNetwork(initGCCallback)
 				end
 			end
 		end
@@ -2386,7 +2386,7 @@ new = function ( params )
 				if loggedIntoGC then
 					gameNetwork.show( "leaderboards", { listener=requestCallback } )
 				else
-					gameNetwork.init( "gamecenter", initCallback )
+					initGameNetwork(initGCCallback)
 				end
 			end
 		end
@@ -2401,7 +2401,7 @@ new = function ( params )
 		leaderboardsButton.xScale,leaderboardsButton.yScale=0.9/screenScale,0.9/screenScale
 		signGroup:insert(leaderboardsButton)
 		
-		if not loggedIntoGC then
+		if (not loggedIntoGC) and (not activateGamenetwork) then
 			achievementsButton.isVisible = false
 			leaderboardsButton.isVisible = false
 			
@@ -2428,6 +2428,10 @@ new = function ( params )
 			gamecenterButton.y=display.screenOriginY+display.viewableContentHeight-45
 			gamecenterButton.xScale,gamecenterButton.yScale=0.9/screenScale,0.9/screenScale
 			signGroup:insert(gamecenterButton)
+		else
+			activateGamenetwork = true
+			achievementsButton.isVisible = true
+			leaderboardsButton.isVisible = true
 		end
 		
 		initGCCallback = function (event)
@@ -2442,6 +2446,7 @@ new = function ( params )
 				leaderboardsButton.isVisible = true
 				gamecenterButton.isVisible = false
 			end
+			initCallback(event)
 		end
 	end
 	

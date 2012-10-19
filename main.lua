@@ -725,6 +725,14 @@ function unlockAchievement(id, reference, title)
 		io.close(fh)
 	end
 	
+	--[[
+	local amsg = "not logged"
+	if loggedIntoGC then
+		amsg = "logged"
+	end
+	native.showAlert( title, amsg, {"ok"} )
+	]]
+	
 	if alreadyUnlocked then return end
 	
 	if not alreadyUnlocked then
@@ -736,15 +744,15 @@ function unlockAchievement(id, reference, title)
 							showsCompletionBanner=true,
 						}
 					});
-		end
-		
-		local fh, reason = io.open( path, "a" )
-		
-		if fh then
-			fh:write("|-"..id.."-|")
-			io.close(fh)
-		else
-			print( "achievements file creation failed" )
+			
+			local fh, reason = io.open( path, "a" )
+			
+			if fh then
+				fh:write("|-"..id.."-|")
+				io.close(fh)
+			else
+				print( "achievements file creation failed" )
+			end
 		end
 	end
 end
@@ -755,6 +763,7 @@ end
 
 -- gamenetwork callback listeners -------------------------------------------------------
 activateGamenetwork = false
+loggedIntoGC = false
 
 function requestCallback( event )
 	if event.type == "setHighScore" then
@@ -797,10 +806,11 @@ function requestCallback( event )
 	end
 end
 
-local function initCallback( event )
+function initCallback( event )
 	if event.data then
 		loggedIntoGC = true
-		--gameNetwork.request( "loadScores", { leaderboard={ category=leaderBoards[currentBoard], playerScope="Global", timeScope="AllTime", range={1,3} }, listener=requestCallback } )
+		activateGamenetwork = true
+		gameNetwork.request( "loadScores", { leaderboard={ category=leaderBoards[currentBoard], playerScope="Global", timeScope="AllTime", range={1,3} }, listener=requestCallback } )
 	end
 end
 
@@ -808,7 +818,7 @@ end
 local onSystem = function( event )
     if event.type == "applicationStart" then
     	display.setStatusBar(display.HiddenStatusBar)
-    	loggedIntoGC = false
+    	--loggedIntoGC = false
     	if usingiOS then
     		if activateGamenetwork then
 				gameNetwork.init( "gamecenter", initCallback )
