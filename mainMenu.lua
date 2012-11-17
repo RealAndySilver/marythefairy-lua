@@ -1,6 +1,8 @@
 module(..., package.seeall)
 
 new = function ( params )
+	Runtime:removeEventListener( "system", systemEvent )
+	
 	soundController.killAll()
 	
 	------------------

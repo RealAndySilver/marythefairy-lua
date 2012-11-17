@@ -8,6 +8,7 @@ require "sprite"
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/interactivity1a4.mp3",
@@ -183,6 +184,7 @@ new = function ( params )
 		startAdventure = function()
 			soundController.playNew{
 						path = "assets/sound/voices/cap2/int2_N1.mp3",
+						duration = 13000,
 						actionTimes = {3500},
 						identifier = "directions",
 						action =	function()
@@ -556,10 +558,21 @@ new = function ( params )
 			transition.to(startButton,{alpha=0,y=startButton.y+whiteSquare.contentHeight,time=550})
 			transition.to(infoDisplayObject,{alpha=0,y=infoDisplayObject.y+whiteSquare.contentHeight,time=550})
 			
+			local newMLADOY=mary.laughingAnimation.displayObject.y+60
 			transition.to(mary.laughingAnimation.displayObject,{y=mary.laughingAnimation.displayObject.y+60,time = 500})
 			transition.to(background,{y=0,time = 500})
 			transition.to(hand,{alpha=0, time = 300})
 			transition.to(arrows,{alpha=0, time = 300})
+			
+			timer.performWithDelay(600, function()
+											whiteSquare.y=height
+											startButton.alpha=0
+											infoDisplayObject.alpha=0
+											mary.laughingAnimation.displayObject.y=newMLADOY
+											background.y=0
+											hand.alpha=0
+											arrows.alpha=0
+										end)
 			
 			timer.performWithDelay(1000, startInteraction)
 			timer.performWithDelay(1500, continue)
@@ -1308,6 +1321,7 @@ new = function ( params )
 			soundController.kill("bgsound")
 			soundController.playNew{
 						path = "assets/sound/voices/cap2/int2_MThanksDry.mp3",
+						duration = 4000,
 						actionTimes = {0},
 						action =	function()
 									end,
@@ -1575,6 +1589,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

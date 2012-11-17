@@ -6,6 +6,7 @@ end
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/interactivity1a4.mp3",
@@ -176,6 +177,7 @@ new = function ( params )
 		startAdventure = function()
 			soundController.playNew{
 						path = "assets/sound/voices/cap3/int3_N1.mp3",
+						duration = 13000,
 						actionTimes = {3500},
 						identifier = "directions",
 						action =	function()
@@ -1275,7 +1277,6 @@ new = function ( params )
 			
 			localGroup:remove(whiteSquare)
 			localGroup:remove(hand)
-			localGroup:remove(arrows)
 			
 			continue=nil
 			killDemoLoop=nil
@@ -1344,12 +1345,25 @@ new = function ( params )
 			transition.to(startButton,{alpha=0,y=startButton.y+whiteSquare.contentHeight,time=550})
 			transition.to(infoDisplayObject,{alpha=0,y=infoDisplayObject.y+whiteSquare.contentHeight,time=550})
 			
+			local newBKADOY=blackAnimation.displayObject.y+20
+			local newBLADOY=blueAnimation.displayObject.y+20
+			local newMADOY=mary.animation1.displayObject.y+60
 			transition.to(blackAnimation.displayObject,{y=blackAnimation.displayObject.y+20,time = 500})
 			transition.to(blueAnimation.displayObject,{y=blueAnimation.displayObject.y+20,time = 500})
 			transition.to(mary.animation1.displayObject,{y=mary.animation1.displayObject.y+60,time = 500})
 			transition.to(background,{y=0,time = 500})
 			transition.to(hand,{alpha=0, time = 300})
-			transition.to(arrows,{alpha=0, time = 300})
+			
+			timer.performWithDelay(600, function()
+											whiteSquare.y=height
+											startButton.alpha=0
+											infoDisplayObject.alpha=0
+											blackAnimation.displayObject.y = newBKADOY
+											blueAnimation.displayObject.y = newBLADOY
+											mary.animation1.displayObject.y = newMADOY
+											background.y=0
+											hand.alpha=0
+										end)
 			
 			timer.performWithDelay(1000, startInteraction)
 			timer.performWithDelay(1500, continue)
@@ -2402,6 +2416,7 @@ new = function ( params )
 			soundController.kill("bgsound")
 			soundController.playNew{
 						path = "assets/sound/voices/cap3/int3_MThanksFly.mp3",
+						duration = 4000,
 						actionTimes = {0},
 						action =	function()
 									end,
@@ -2671,6 +2686,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

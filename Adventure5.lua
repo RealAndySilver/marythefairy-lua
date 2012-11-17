@@ -2,6 +2,7 @@ module(..., package.seeall)
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/mainScreen.mp3",
@@ -829,6 +830,7 @@ new = function ( params )
 			
 			soundController.playNew{
 						path = "assets/sound/voices/cap5/adv5_N1.mp3",
+						duration = 18000,
 						actionTimes = {0,3500,8800,11500},
 						action =	function()
 										nextSubtitle()
@@ -1158,6 +1160,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

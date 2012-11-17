@@ -1,5 +1,4 @@
 function newSoundController()
-	print(":)")
 	local thisSC ={}
 	
 	local playing = true
@@ -21,7 +20,7 @@ function newSoundController()
 	end
 	
 	thisSC.playNew = function(params)
-		if not audioHandle then
+		if not params.audioHandle then
 			if not params.path then
 				return nil
 			end
@@ -30,23 +29,68 @@ function newSoundController()
 			end
 		end
 		
+		local thisSound = {}
+		local thisSoundTimer = nil
+		
 		local autorelease = true
 		local audioHandle = params.audioHandle
 		if not audioHandle then
 			audioHandle = audio.loadSound(params.path)
 			autorelease = false
 		end
-		if not audioHandle then
-			return
-		end
 		if params.autorelease then
 			autorelease = params.autorelease
 		end
-		local duration = audio.getDuration( audioHandle )
-		local loops = (params.loops) and params.loops or 0
-		local channel = -1
 		
-		local thisSound = {}
+		local duration = 0
+		if audioHandle then
+			duration = audio.getDuration( audioHandle )
+		end
+		
+		local loops = (params.loops) and params.loops or 0
+		
+		local channel = -1
+		local staticChannel = 0
+		if params.staticChannel then staticChannel = params.staticChannel end
+		
+		if (audioHandle) then
+			channel = audio.play(audioHandle, { loops=loops,
+												onComplete = function(event)
+												end,
+												channel = staticChannel
+											  })
+		end
+		
+		local onComplete = function(event)
+			event.completed = true
+			if thisSound then
+				if thisSound.kill then
+					if type(thisSound.kill) == "function" then
+						thisSound.kill(event)
+					end
+				end
+			end
+		end
+		if channel <= 0 or (not audioHandle) then
+			if params.duration and type(params.duration)=="number" then
+				duration = params.duration
+				thisSoundTimer = timer.performWithDelay(duration, onComplete)
+			else
+				print("Error while trying to play \""..params.path.."\"")
+				return nil
+			end
+		else
+			thisSoundTimer = timer.performWithDelay(duration, onComplete)
+		end
+		thisSound.timeStarted = system.getTimer()
+		if not playing then
+			if pausedTime then
+				thisSound.timeStarted = pausedTime
+			end
+			audio.pause(channel)
+		else
+			thisSC.play()
+		end
 		
 		thisSound.kill = function(event)
 			local completed = false
@@ -82,6 +126,8 @@ function newSoundController()
 			duration = nil
 			params = nil
 			channel = nil
+			timer.cancel(thisSoundTimer)
+			thisSoundTimer=nil
 		end
 		
 		thisSound.identifier = ""
@@ -136,42 +182,20 @@ function newSoundController()
 			end
 		end
 		
-		local staticChannel = 0
-		if params.staticChannel then staticChannel = params.staticChannel end
-		channel = audio.play(audioHandle, { loops=loops,
-											onComplete = function(event)
-												if thisSound then
-													if thisSound.kill then
-														if type(thisSound.kill) == "function" then
-															thisSound.kill(event)
-														end
-													end
-												end
-											end,
-											channel = staticChannel
-										  })
-		if channel == 0 then
-			print("Error while trying to play \""..params.path.."\"")
-			return nil
-		end
-		thisSound.timeStarted = system.getTimer()
-		if not playing then
-			if pausedTime then
-				thisSound.timeStarted = pausedTime
-			end
-			audio.pause(channel)
-		else
-			thisSC.play()
-		end
-		
 		thisSound.pause = function()
-			audio.pause(channel)
+			if (channel > 0) then
+				audio.pause(channel)
+			end
+			timer.pause(thisSoundTimer)
 		end
 		
 		thisSound.resume = function()
-			if audio.isChannelPaused(channel) then
-				audio.resume(channel)
+			if (channel > 0) then
+				if audio.isChannelPaused(channel) then
+					audio.resume(channel)
+				end
 			end
+			timer.resume(thisSoundTimer)
 		end
 		--[[
 		print("-")

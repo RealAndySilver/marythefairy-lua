@@ -180,6 +180,7 @@ new = function (params)
 	if not params.shouldNotPlaySound then
 		soundController.playNew{
 						path = "assets/sound/voices/outro/NarratorsRealOutro.mp3",
+						duration = 14000,
 						actionTimes = {0},
 						action =	function()
 									end,

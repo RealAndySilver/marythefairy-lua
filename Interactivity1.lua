@@ -6,6 +6,7 @@ end
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/interactivity1a4.mp3",
@@ -175,6 +176,7 @@ new = function ( params )
 		startAdventure = function()
 			soundController.playNew{
 						path = "assets/sound/voices/cap1/int1_N1.mp3",
+						duration = 18000,
 						actionTimes = {4500},
 						identifier = "directions",
 						action =	function()
@@ -626,6 +628,10 @@ new = function ( params )
 			transition.to(startButton,{alpha=0,y=startButton.y+whiteSquare.contentHeight,time=550})
 			transition.to(infoDisplayObject,{alpha=0,y=infoDisplayObject.y+whiteSquare.contentHeight,time=550})
 			
+			local newbasketBackY=basketBack.y+75
+			local newbasketFrontY=basketFront.y+75
+			local newanimalImageY=animalImage.y+75
+			
 			transition.to(basketBack,{y=basketBack.y+75,time=500})
 			transition.to(basketFront,{y=basketFront.y+75,time=500})
 			transition.to(animalImage,{y=animalImage.y+75,time=500})
@@ -634,6 +640,16 @@ new = function ( params )
 			runningAnimal.vanish(300)
 			caughtAnimal.vanish(300)
 			handAnimation.vanish(300)
+			
+			timer.performWithDelay(600, function()
+											whiteSquare.y=height
+											startButton.alpha=0
+											infoDisplayObject.alpha=0
+											basketBack.y=newbasketBackY
+											basketFront.y=newbasketFrontY
+											animalImage.y=newanimalImageY
+											loadingBackground.y=0
+										end)
 			
 			timer.performWithDelay(1000, startInteraction)
 			timer.performWithDelay(1500, continue)
@@ -2469,6 +2485,7 @@ new = function ( params )
 			soundController.kill("bgsound")
 			soundController.playNew{
 						path = "assets/sound/voices/cap1/int1_MWellDone.mp3",
+						duration = 6000,
 						actionTimes = {0},
 						action =	function()
 									end,
@@ -2735,6 +2752,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

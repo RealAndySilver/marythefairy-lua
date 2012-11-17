@@ -6,6 +6,7 @@ end
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/interactivity5.mp3",
@@ -179,6 +180,7 @@ new = function ( params )
 		startAdventure = function()
 			soundController.playNew{
 						path = "assets/sound/voices/cap5/int5_N1.mp3",
+						duration = 15000,
 						actionTimes = {4500},
 						identifier = "directions",
 						action =	function()
@@ -621,6 +623,13 @@ new = function ( params )
 			runningAnimal.vanish(300)
 			caughtAnimal.vanish(300)
 			handAnimation.vanish(300)
+			
+			timer.performWithDelay(600, function()
+											whiteSquare.y=height
+											startButton.alpha=0
+											infoDisplayObject.alpha=0
+											loadingBackground.y=0
+										end)
 			
 			timer.performWithDelay(1000, startInteraction)
 			timer.performWithDelay(1500, continue)
@@ -1792,6 +1801,7 @@ new = function ( params )
 			
 			soundController.playNew{
 						path = "assets/sound/voices/cap5/int5_MaryZZZ.mp3",
+						--duration = 9000,
 						identifier = "mary",
 						loops = -1,
 						staticChannel = 5,
@@ -1815,6 +1825,7 @@ new = function ( params )
 			
 			soundController.playNew{
 						path = "assets/sound/voices/outro/NarratorsOutro.mp3",
+						duration = 6000,
 						actionTimes = {0,3500},
 						action =	function()
 										if nextSubtitle then
@@ -2306,6 +2317,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

@@ -11,6 +11,7 @@ local ui = require("ui")
 
 -- Main function - MUST return a display.newGroup()
 function new()
+		Runtime:removeEventListener( "system", systemEvent )
 		
 		local width = display.contentWidth
 		local height = display.contentHeight

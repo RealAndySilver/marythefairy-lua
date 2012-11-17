@@ -6,6 +6,7 @@ end
 
 new = function ( params )
 	soundController.killAll()
+	Runtime:removeEventListener( "system", systemEvent )
 	
 	soundController.playNew{
 					path = "assets/sound/interactivity1a4.mp3",
@@ -173,6 +174,7 @@ new = function ( params )
 		startAdventure = function()
 			soundController.playNew{
 						path = "assets/sound/voices/cap4/int4_N1.mp3",
+						duration = 16000,
 						actionTimes = {4500},
 						identifier = "directions",
 						action =	function()
@@ -952,7 +954,6 @@ new = function ( params )
 			
 			localGroup:remove(whiteSquare)
 			localGroup:remove(hand)
-			localGroup:remove(arrows)
 			
 			continue=nil
 			killDemoLoop=nil
@@ -1024,7 +1025,14 @@ new = function ( params )
 			
 			transition.to(background,{y=0,time = 500})
 			transition.to(hand,{alpha=0, time = 300})
-			transition.to(arrows,{alpha=0, time = 300})
+			
+			timer.performWithDelay(600, function()
+											whiteSquare.y=height
+											startButton.alpha=0
+											infoDisplayObject.alpha=0
+											background.y=0
+											hand.alpha=0
+										end)
 			
 			timer.performWithDelay(1000, startInteraction)
 			timer.performWithDelay(1500, continue)
@@ -1736,6 +1744,7 @@ new = function ( params )
 			soundController.kill("bgsound")
 			soundController.playNew{
 						path = "assets/sound/voices/cap4/int4_MThanksRace.mp3",
+						duration = 6000,
 						actionTimes = {0},
 						action =	function()
 									end,
@@ -2003,6 +2012,12 @@ new = function ( params )
 			end
 		end
 	end
+	local function systemEvent(event)
+		if event.type == "applicationSuspend" and not paused then
+			menuButtonAction({phase="release"})
+		end
+	end
+	Runtime:addEventListener( "system", systemEvent )
 	-- UI ELEMENT
 	local menuButton = ui.newButton{
 					default = "assets/botonMenu.png",

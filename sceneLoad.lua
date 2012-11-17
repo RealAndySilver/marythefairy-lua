@@ -6,6 +6,8 @@ module(..., package.seeall)
 
 -- Main function - MUST return a display.newGroup()
 function new()
+		Runtime:removeEventListener( "system", systemEvent )
+		
         local localGroup = display.newGroup()
         
         -- Code Start --

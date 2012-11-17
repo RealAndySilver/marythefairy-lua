@@ -89,9 +89,9 @@ end
 --ads = require "ads"
 --ads.init( "inmobi", appAdId )
 
-newAds = {showAdModalView = function() Runtime:dispatchEvent({name="ads"}) end}
---newAds = require "newAds"
---newAds.init( appAdId )
+--newAds = {showAdModalView = function() Runtime:dispatchEvent({name="ads"}) end}
+newAds = require "newAds"
+newAds.init( appAdId )
 
 adsTestMode = true
 
