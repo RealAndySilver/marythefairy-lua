@@ -12,6 +12,9 @@ local adPreloader = require("adPreloader")
 local preloader = require("preloader")
 local director = require("director")
 local gameNetwork = require("gameNetwork")
+local rotationFix = require ("rotationfix")
+
+invertedRotation = false
 skipDirectorErrorAlerts = true
 
 usingiOS = false
@@ -59,7 +62,10 @@ end
 local appAdId = "4028cbff3a1c0028013a48734f1f0366"
 
 if usingiOS then
-	appAdId = "4028cbff3a1c0028013a483e498c035c"
+	--appAdId = "4028cbff3a1c0028013a483e498c035c"
+	--appAdId = "4028cba631d63df10131e1d4650600cd"
+		appAdId = "4028cbff3a1c0028013a45fd89040310"
+
 end
 
 --====================================================================--
@@ -78,8 +84,22 @@ end
 -- INIT ADS
 --====================================================================--
 
-ads = require "ads"
-ads.init( "inmobi", appAdId )
+--ads = require "ads"
+--ads.init( "inmobi", appAdId )
+
+newAds = require "newAds"
+newAds.init( appAdId )
+
+adsTestMode = true
+
+--[[
+local function onDismiss()
+	print("Dismissed!");
+	Runtime:removeEventListener( "ads", onDismiss )
+end
+Runtime:addEventListener( "ads", onDismiss )
+newAds.showAdModalView(true)
+]]
 
 --====================================================================--
 -- INIT ANALYTICS
@@ -122,7 +142,8 @@ TextCandy = require("lib_text_candy")
 TextCandy.EnableDebug(false)
 
 -- LOAD & ADD A CHARSET
-TextCandy.AddVectorFont (mainFont1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'’*@():,$.!-%+?;#/_", 20)
+--TextCandy.AddVectorFont (mainFont1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'’*@():,$.!-%+?;#/_", 20)
+TextCandy.AddVectorFont (mainFont1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'*@():,$.!-%+?;#/_", 20)
 
 defaultIOT =
 	{
@@ -152,25 +173,11 @@ defaultIOT =
 --====================================================================--
 -- CREATE A MAIN GROUP
 --====================================================================--
-
 local mainGroup = display.newGroup()
 
 --====================================================================--
 -- Notifications
 --====================================================================--
-local algo=0;
-local function goToURL( event )
-        if "clicked" == event.action then
-                local i = event.index
-                if 1 == i then
-                        -- Do nothing; dialog will simply dismiss
-                elseif 2 == i then
-                        -- Open URL if "Learn More" (the 2nd button) was clicked
-                        system.openURL( algo )
-                end
-        end
-end
-
 local launchArgs = ...
 
 local json = require "json"
@@ -180,9 +187,6 @@ local function networkListener( event )
                 print( "Network error!")
         else
                 print ( "RESPONSE: " .. event.response )
-                eldecode=json.decode(event.response)
-                algo=eldecode.url
-                --native.showAlert( "Notification 5", algo, { "Cancel","OK" },goToURL )
         end
 end
  
@@ -200,21 +204,11 @@ local function onNotification( event )
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
     print( "Notification"..event.token)
     elseif event.type == "remote" then
-    jsonVar=json.encode(event)
-    jsonDecodedMessage=json.decode(jsonVar)
-    jsonAlert=jsonDecodedMessage.alert
-    if	string.find(jsonAlert,"Fairy 2")then
-            native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
-    elseif string.find(jsonAlert,"chao")then
-                --native.showAlert( "Notification 2", jsonAlert, { "Cancel","OK" },goToURL )
-    end
     end
 end
-
 postData = "campo=".."d3d859387bf90cee7e4d54129bfb845b9c375807d650b2262fb26ee078e82cb6".."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
         params.body = postData
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
-        network.request( "http://whackimole.com/PushScript/getUrlForUpdate.php", "POST", networkListener, params)
 
 print("año "..date.year,"mes "..date.month,"Día "..date.day,"hora "..date.hour, "minutos "..date.min)
 Runtime:addEventListener( "notification", onNotification )

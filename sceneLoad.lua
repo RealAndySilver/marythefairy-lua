@@ -44,6 +44,7 @@ function new()
 				dotCount = dotCount + 1
 			end
 			titleLabel.x = display.contentWidth/2 + dotCount*3
+			titleLabel.alpha = 1
 			
 			timer.performWithDelay(100,addDots)
 		end

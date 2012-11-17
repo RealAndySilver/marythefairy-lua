@@ -1,10 +1,11 @@
 settings = {
 	orientation =
 	{
-		default = "landscapeRight",
-		supported = { "landscapeRight", "landscapeLeft" }
+		default = "landscapeLeft",
+		content = "landscapeLeft",
+		supported = { "landscapeRight", "landscapeLeft", "portrait" }
 	},
-	
+
 	iphone =
 	{
 		plist=
@@ -17,10 +18,14 @@ settings = {
 	           "Icon-72.png", 
 	           "Icon-72@2x.png", 
 	        },
+
+	        UIInterfaceOrientation = "UIInterfaceOrientationLandscapeRight",
 	        UISupportedInterfaceOrientations =
             {
                 "UIInterfaceOrientationLandscapeLeft",
-                "UIInterfaceOrientationLandscapeRight"
+                "UIInterfaceOrientationLandscapeRight",
+                 "UIInterfaceOrientationPortrait",
+
             },
             UIAppFonts =
             {
