@@ -61,8 +61,10 @@
 --]]
 
 -- SET YOUR ORIENTATIONS HERE
-local mainOr = "landscapeLeft"
-local altOr = "landscapeRight"
+--local mainOr = "landscapeLeft"
+--local altOr = "landscapeRight"
+local mainOr = "landscapeRight"
+local altOr = "landscapeLeft"
 
 -- MASTER CODE
 local stage = display.getCurrentStage( )
