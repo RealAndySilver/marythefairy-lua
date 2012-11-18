@@ -15,7 +15,7 @@ local gameNetwork = require("gameNetwork")
 local rotationFix = require ("rotationfix")
 
 require("soundcontroller")
-
+system.setIdleTimer( false )
 invertedRotation = false
 skipDirectorErrorAlerts = true
 

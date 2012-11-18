@@ -93,11 +93,11 @@ end
 function rotatestart( val, initial )
 	if isrotating == false and curOrientation ~= val then
 		if val == mainOr then
-			rota = -180
+			rota = 180
 			curOrientation = mainOr
 			invertedRotation = false
 		elseif val == altOr then
-			rota = 180
+			rota = -180
 			curOrientation = altOr
 			invertedRotation = true
 		end
