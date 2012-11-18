@@ -1261,6 +1261,7 @@ new = function ( params )
 			end
 			
 			local function touchScreen (event)
+				event = correctTouch(event)
 				lastAnimalTime = system.getTimer()
 				if event.phase == "moved" then
 					if thisAnimal.displayObject.markX and thisAnimal.displayObject.markY then
@@ -1322,6 +1323,7 @@ new = function ( params )
 			end
 			
 			local function touchAnimal (event)
+				event = correctTouch(event)
 				if event.phase == "began" then
 					if not canDrag then
 						return

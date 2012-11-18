@@ -89,8 +89,9 @@ end
 --ads = require "ads"
 --ads.init( "inmobi", appAdId )
 
---newAds = {showAdModalView = function() Runtime:dispatchEvent({name="ads"}) end}
 newAds = require "newAds"
+--newAds = { showAdModalView = function() Runtime:dispatchEvent({name="ads"}) end, init = function() end }
+
 newAds.init( appAdId )
 
 adsTestMode = true
@@ -134,6 +135,24 @@ function retinaConditional(fval, tval)
 		return tval
 	end
 	return fval
+end
+
+function correctTouch(touchEvent)
+	if invertedRotation then
+		if touchEvent.x then
+			touchEvent.x = (1 - (touchEvent.x/display.contentWidth)) * display.contentWidth
+			if touchEvent.xStart then
+				touchEvent.xStart = (1 - (touchEvent.xStart/display.contentWidth)) * display.contentWidth
+			end
+		end
+		if touchEvent.y then
+			touchEvent.y = (1 - (touchEvent.y/display.contentHeight)) * display.contentHeight
+			if touchEvent.yStart then
+				touchEvent.yStart = (1 - (touchEvent.yStart/display.contentHeight)) * display.contentHeight
+			end
+		end
+	end
+	return touchEvent
 end
 
 --====================================================================--

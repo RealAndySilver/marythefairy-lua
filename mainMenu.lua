@@ -769,6 +769,7 @@ new = function ( params )
 			end
 			
 			local function touchScreen (event)
+				event = correctTouch(event)
 				if event.phase == "moved" then
 					if thisAnimal.displayObject.markX and thisAnimal.displayObject.markY then
 					thisAnimal.caughtAnimal.displayObject.x, thisAnimal.caughtAnimal.displayObject.y = event.x, event.y
@@ -810,6 +811,7 @@ new = function ( params )
 			end
 			
 			local function touchAnimal (event)
+				event = correctTouch(event)
 				if event.phase == "began" then
 					registerAnimalTouch(reg)
 					if isDraggingAnimal then
@@ -1225,6 +1227,7 @@ new = function ( params )
 			end
 			
 			local function touchScreen (event)
+				event = correctTouch(event)
 				if event.phase == "moved" then
 					if thisAnimal.displayObject.markX and thisAnimal.displayObject.markY then
 					thisAnimal.caughtAnimal.displayObject.x, thisAnimal.caughtAnimal.displayObject.y = event.x, event.y
@@ -1267,6 +1270,7 @@ new = function ( params )
 			end
 			
 			local function touchAnimal (event)
+				event = correctTouch(event)
 				if event.phase == "began" then
 					registerAnimalTouch(reg)
 					if isDraggingAnimal then
@@ -1917,6 +1921,7 @@ new = function ( params )
 			end
 			
 			local function touchScreen (event)
+				event = correctTouch(event)
 				if event.phase == "moved" then
 					if thisAnimal.displayObject.markX and thisAnimal.displayObject.markY then
 					thisAnimal.caughtAnimal.displayObject.x, thisAnimal.caughtAnimal.displayObject.y = event.x, event.y
@@ -1954,6 +1959,7 @@ new = function ( params )
 			end
 			
 			local function touchAnimal (event)
+				event = correctTouch(event)
 				if event.phase == "began" then
 					registerAnimalTouch(reg)
 					if isDraggingAnimal then

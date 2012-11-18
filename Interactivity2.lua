@@ -949,6 +949,7 @@ new = function ( params )
 		end
 		
 		local function touchScreen (event)
+			event = correctTouch(event)
 			if loseTimer then
 				timer.cancel(loseTimer)
 				loseTimer=nil
@@ -1036,6 +1037,7 @@ new = function ( params )
 		end
 		
 		local function touchWings (event)
+			event = correctTouch(event)
 			if loseTimer then
 				timer.cancel(loseTimer)
 				loseTimer=nil
