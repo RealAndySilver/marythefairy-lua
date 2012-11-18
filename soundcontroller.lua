@@ -74,13 +74,17 @@ function newSoundController()
 		if channel <= 0 or (not audioHandle) then
 			if params.duration and type(params.duration)=="number" then
 				duration = params.duration
-				thisSoundTimer = timer.performWithDelay(duration, onComplete)
+				if loops >= 0 then
+					thisSoundTimer = timer.performWithDelay(duration*(loops+1), onComplete)
+				end
 			else
 				print("Error while trying to play \""..params.path.."\"")
 				return nil
 			end
 		else
-			thisSoundTimer = timer.performWithDelay(duration, onComplete)
+			if loops >= 0 then
+				thisSoundTimer = timer.performWithDelay(duration*(loops+1), onComplete)
+			end
 		end
 		thisSound.timeStarted = system.getTimer()
 		if not playing then
@@ -126,7 +130,9 @@ function newSoundController()
 			duration = nil
 			params = nil
 			channel = nil
-			timer.cancel(thisSoundTimer)
+			if (thisSoundTimer) then
+				timer.cancel(thisSoundTimer)
+			end
 			thisSoundTimer=nil
 		end
 		
@@ -186,7 +192,9 @@ function newSoundController()
 			if (channel > 0) then
 				audio.pause(channel)
 			end
-			timer.pause(thisSoundTimer)
+			if (thisSoundTimer) then
+				timer.pause(thisSoundTimer)
+			end
 		end
 		
 		thisSound.resume = function()
@@ -195,7 +203,9 @@ function newSoundController()
 					audio.resume(channel)
 				end
 			end
-			timer.resume(thisSoundTimer)
+			if (thisSoundTimer) then
+				timer.resume(thisSoundTimer)
+			end
 		end
 		--[[
 		print("-")
