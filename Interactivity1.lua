@@ -146,6 +146,9 @@ new = function ( params )
 		
 		titleLabel.alpha=0
 		transition.to(titleLabel,{alpha=1,time=1500})
+		timer.performWithDelay(1500,	function()
+											titleLabel.alpha=1
+										end)
 		
 		local function continue()
 			localGroup:remove(loadingBackground)
@@ -658,6 +661,18 @@ new = function ( params )
 		end
 		
 		startDemoLoop = function()
+			local function killTheBug()
+				loadingBackground.alpha = 1
+				basketBack.alpha = 1
+				basketFront.alpha = 1
+				handAnimation.displayObject.alpha = 1
+				startButton.alpha = 1
+				infoDisplayObject.alpha = 1
+				whiteSquare.alpha = 1
+				killTheBug = nil
+			end
+			timer.performWithDelay(350,killTheBug)
+			
 			basketBack.isVisible = true
 			basketFront.isVisible = true
 			

@@ -154,6 +154,9 @@ new = function ( params )
 		
 		titleLabel.alpha=0
 		transition.to(titleLabel,{alpha=1,time=1500})
+		timer.performWithDelay(1500,	function()
+											titleLabel.alpha=1
+										end)
 		
 		local function continue()
 			localGroup:remove(loadingBackground)
@@ -580,6 +583,20 @@ new = function ( params )
 		end
 		
 		startDemoLoop = function()
+			local function killTheBug()
+				background.alpha = 1
+				hand.alpha = 1
+				arrows.alpha = 1
+				startButton.alpha = 1
+				infoDisplayObject.alpha = 1
+				whiteSquare.alpha = 1
+				mary.laughingAnimation.displayObject.alpha = 1
+				mary.wing1.alpha = 1
+				mary.wing2.alpha = 1
+				killTheBug = nil
+			end
+			timer.performWithDelay(350,killTheBug)
+			
 			background.isVisible = true
 			
 			arrows.isVisible = true

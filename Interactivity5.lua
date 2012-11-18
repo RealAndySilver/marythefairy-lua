@@ -150,6 +150,9 @@ new = function ( params )
 		
 		titleLabel.alpha=0
 		transition.to(titleLabel,{alpha=1,time=1500})
+		timer.performWithDelay(1500,	function()
+											titleLabel.alpha=1
+										end)
 		
 		local function continue()
 			localGroup:remove(loadingBackground)
