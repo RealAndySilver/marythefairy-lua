@@ -808,6 +808,7 @@ new = function ( params )
 		end
 		
 		local function touchEvent(event)
+			event = correctTouch(event)
 			if event.phase == "began" then
 				if actionFunction then
 					if type(actionFunction) == "function" then
