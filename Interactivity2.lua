@@ -967,7 +967,6 @@ new = function ( params )
 		
 		local function touchScreen (event)
 			event = correctTouch(event)
-			event = correctTouch(event)
 			if loseTimer then
 				timer.cancel(loseTimer)
 				loseTimer=nil
