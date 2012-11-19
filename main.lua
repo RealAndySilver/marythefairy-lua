@@ -18,7 +18,9 @@ require("soundcontroller")
 system.setIdleTimer( false )
 invertedRotation = false
 skipDirectorErrorAlerts = true
-
+if	system.orientation=="landscapeLeft" then
+invertedRotation=true
+end
 usingiOS = false
 usingiPad = false
 if system.getInfo( "platformName" ) == "iPhone OS" then
