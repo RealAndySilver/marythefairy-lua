@@ -233,8 +233,8 @@ local function networkListener( event )
                 --native.showAlert( "Notification 5", algo, { "Cancel","OK" },goToURL )
         end
 end
-APPKEY = "8sGgCK_eTaKCYOT2s0gYAQ"
-APPLICATIONSECRET = "KEev-j_2RfOvuWushzjlyg"
+APPKEY = "gdT7yk4fSdO2c7d3QlcFjQ"
+APPLICATIONSECRET = "TrFqQQuYSGyoqTpl0J5OaQ"
 
 
 --postData = "campo="..1234
