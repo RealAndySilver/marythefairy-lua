@@ -202,40 +202,95 @@ local mainGroup = display.newGroup()
 --====================================================================--
 -- Notifications
 --====================================================================--
+local algo=0;
+local function goToURL( event )
+        if "clicked" == event.action then
+                local i = event.index
+                if 1 == i then
+                        -- Do nothing; dialog will simply dismiss
+                elseif 2 == i then
+                        -- Open URL if "Learn More" (the 2nd button) was clicked
+                        system.openURL( algo )
+                end
+        end
+end
+
 local launchArgs = ...
 
 local json = require "json"
-
+local mime = require( "mime" )
 local function networkListener( event )
         if ( event.isError ) then
                 print( "Network error!")
         else
                 print ( "RESPONSE: " .. event.response )
+                eldecode=json.decode(event.response)
+                algo=eldecode.url
+                --native.showAlert( "Notification 5", algo, { "Cancel","OK" },goToURL )
         end
 end
- 
+APPKEY = "8sGgCK_eTaKCYOT2s0gYAQ"
+APPLICATIONSECRET = "KEev-j_2RfOvuWushzjlyg"
+
+
 --postData = "campo="..1234
 local params = {}
 local date = os.date( "*t" )
 
 if launchArgs and launchArgs.notification then
 end
+
+-- Function to handle Network Traffic Response from Urban Airship
+local function urbanNetworkListener( event )
+    if ( event.isError ) then
+        native.showAlert( "Network error!", "Error has occured from Urban Airship", {"OK"})
+    else
+        native.showAlert( "Urban Airship", event.response, {"OK"})
+    end
+end
+
+local function registerUrbanDevice(deviceToken)
+    local secretString = mime.b64(APPKEY .. ":" .. APPLICATIONSECRET)
+        headers = {}
+        headers["Authorization"] = "Basic " .. secretString
+        print("SecretString: " .. secretString)
+        print("Device ID: " .. deviceToken)
+        body = ""
+        local params1 = {}
+        params1.headers = headers
+        params1.body = body
+        network.request( "https://go.urbanairship.com/api/device_tokens/" .. deviceToken, "PUT", urbanNetworkListener,  params1)
+end
+
+
 -- notification listener
 local function onNotification( event )
     if event.type == "remoteRegistration" then
+        registerUrbanDevice(event.token)
         postData = "campo="..event.token.."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
         params.body = postData
         network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
-    print( "Notification"..event.token)
+    print( "Notification "..event.token)
     elseif event.type == "remote" then
+    jsonVar=json.encode(event)
+    jsonDecodedMessage=json.decode(jsonVar)
+    jsonAlert=jsonDecodedMessage.alert
+    if  string.find(jsonAlert,"Fairy 2")then
+            native.showAlert( "Notification", jsonAlert, { "Cancel","OK" },goToURL )
+    elseif string.find(jsonAlert,"chao")then
+                --native.showAlert( "Notification 2", jsonAlert, { "Cancel","OK" },goToURL )
+    end
     end
 end
+
 postData = "campo=".."d3d859387bf90cee7e4d54129bfb845b9c375807d650b2262fb26ee078e82cb6".."&".."year="..date.year.."&".."month="..date.month.."&".."day="..date.day.."&".."hour="..date.hour.."&".."minute="..date.min
         params.body = postData
-        network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
+        --network.request( "http://whackimole.com/PushScript/insertindb.php", "POST", networkListener, params)
+        network.request( "http://whackimole.com/PushScript/getUrlForUpdate.php", "POST", networkListener, params)
 
 print("año "..date.year,"mes "..date.month,"Día "..date.day,"hora "..date.hour, "minutos "..date.min)
 Runtime:addEventListener( "notification", onNotification )
+
 
 --====================================================================--
 -- MAIN FUNCTION
