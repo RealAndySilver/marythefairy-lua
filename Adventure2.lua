@@ -546,8 +546,11 @@ new = function ( params )
 				end
 				return
 			end
-			local finished = (math.floor(animation.getFrameCount()) == math.floor(animation.getActualFrame())) or forceFinish
-			if finished and animation.isMoving then
+			
+			--local finished = (math.floor(animation.getFrameCount()) == math.floor(animation.getActualFrame())) or forceFinish
+			--if finished and animation.isMoving then
+			local finished = (math.floor(animation.getFrameCount()) == math.ceil(animation.getActualFrame())) or forceFinish
+			if finished then
 				animation.stop()
 				Runtime:removeEventListener( "enterFrame", animate )
 				if vanish then
