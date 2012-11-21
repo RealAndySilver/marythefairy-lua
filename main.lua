@@ -243,9 +243,7 @@ end
 -- Function to handle Network Traffic Response from Urban Airship
 local function urbanNetworkListener( event )
     if ( event.isError ) then
-        native.showAlert( "Network error!", "Error has occured from Urban Airship", {"OK"})
     else
-        native.showAlert( "Urban Airship", event.response, {"OK"})
     end
 end
 
