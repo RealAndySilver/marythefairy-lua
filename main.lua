@@ -63,12 +63,16 @@ end
 --====================================================================--
 -- ADS CONSTANTS
 --====================================================================--
+-- Esta es la cuenta de tapmedia de Android
 local appAdId = "4028cbff3a1c0028013a48734f1f0366"
 
 if usingiOS then
-	--appAdId = "4028cbff3a1c0028013a483e498c035c"
+	--Esta es la cuenta de tapmedia de iOS
+	appAdId = "4028cbff3a1c0028013a483e498c035c"
+	
+	--Estas son cuentas de prueba
 	--appAdId = "4028cba631d63df10131e1d4650600cd"
-		appAdId = "4028cbff3a1c0028013a45fd89040310"
+	--appAdId = "4028cbff3a1c0028013a45fd89040310"
 
 end
 
