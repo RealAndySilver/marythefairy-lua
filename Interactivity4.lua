@@ -1514,6 +1514,16 @@ new = function ( params )
 				countdownTimer = timer.performWithDelay(1000, updateTimer)
 			end
 			
+			timer.performWithDelay( 300,
+									function()
+										counterCircle.alpha=1
+										text1.alpha=1
+										if timeLimit>0 then
+											timerCircle.alpha=1
+											text2.alpha=1
+										end
+									end)
+			
 			local pausedTime = 0
 			pauseIt=function()
 				pausedTime = system.getTimer()

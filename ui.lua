@@ -793,6 +793,16 @@ function newAnimation( params )
 					transition.to(params.comps[i].displayObject,{alpha = 0,time=fxtime})
 				end
 			end
+			
+			if not fxtime then
+				fxtime=500
+			end
+			timer.performWithDelay( fxtime,
+									function()
+										for i=1, #params.comps do
+											params.comps[i].displayObject.alpha=0
+										end
+									end)
 		end
 		
 		thisAnimation.appear = function(fxtime)
@@ -803,6 +813,16 @@ function newAnimation( params )
 					transition.to(params.comps[i].displayObject,{alpha = 1,time=fxtime})
 				end
 			end
+			
+			if not fxtime then
+				fxtime=500
+			end
+			timer.performWithDelay( fxtime,
+									function()
+										for i=1, #params.comps do
+											params.comps[i].displayObject.alpha=1
+										end
+									end)
 		end
 		
 		thisAnimation.reset = function()

@@ -1110,6 +1110,13 @@ new = function ( params )
 			waterRect.isVisible = true
 			transition.to(waterRect,{alpha=1,time=300})
 			
+			timer.performWithDelay( 300,
+									function()
+										waterContainer.alpha=1
+										waterWavesInstance.alpha=1
+										waterRect.alpha=1
+									end)
+			
 			Runtime:addEventListener("enterFrame",echarleAguitaAlTuboEse)
 			
 			local pausedTime = 0
