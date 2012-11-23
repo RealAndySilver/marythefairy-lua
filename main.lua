@@ -100,7 +100,7 @@ newAds = require "newAds"
 
 newAds.init( appAdId )
 
-adsTestMode = true
+adsTestMode = false
 
 --[[
 local function onDismiss()
