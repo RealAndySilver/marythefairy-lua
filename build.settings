@@ -20,12 +20,10 @@ settings = {
 	        },
 
 	        UIInterfaceOrientation = "UIInterfaceOrientationLandscapeRight",
+	        CoronaUseIOS6LandscapeOnlyWorkaround = true,
 	        UISupportedInterfaceOrientations =
             {
-                "UIInterfaceOrientationLandscapeLeft",
                 "UIInterfaceOrientationLandscapeRight",
-                 "UIInterfaceOrientationPortrait",
-
             },
             UIAppFonts =
             {
